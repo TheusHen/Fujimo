@@ -4,12 +4,10 @@ export class Start extends Phaser.Scene {
     }
 
     preload() {
-        // Carregar o "floor" como novo background
+        // Carregando assets
         this.load.image('background', '/src/scenes/assets/floor.png');
-        // Floor agora é só o chão base, por baixo de tudo
         this.load.image('floor', '/src/scenes/assets/floor.png');
 
-        // Móveis para ficarem acima do novo fundo (floor.png)
         this.load.image('pc', '/src/scenes/assets/Moveis/pc.png');
         this.load.image('esc_cadeira', '/src/scenes/assets/Moveis/esc_cadeira.png');
         this.load.image('armario', '/src/scenes/assets/Moveis/armario.png');
@@ -23,92 +21,84 @@ export class Start extends Phaser.Scene {
         this.load.image('futon', '/src/scenes/assets/Moveis/futon.png');
 
         // Parada (idle)
-        this.load.image('fujimo_parada_1', '/src/scenes/assets/parada/frame_1_delay-0.1s.png');
-        this.load.image('fujimo_parada_2', '/src/scenes/assets/parada/frame_2_delay-0.1s.png');
-        this.load.image('fujimo_parada_3', '/src/scenes/assets/parada/frame_3_delay-0.1s.png');
-        this.load.image('fujimo_parada_4', '/src/scenes/assets/parada/frame_4_delay-0.1s.png');
-        this.load.image('fujimo_parada_5', '/src/scenes/assets/parada/frame_5_delay-0.1s.png');
-        this.load.image('fujimo_parada_6', '/src/scenes/assets/parada/frame_6_delay-0.1s.png');
-        this.load.image('fujimo_parada_7', '/src/scenes/assets/parada/frame_7_delay-0.1s.png');
-        this.load.image('fujimo_parada_0', '/src/scenes/assets/parada/frame_0_delay-0.1s.png');
+        for (let i = 0; i <= 7; i++) {
+            this.load.image(`fujimo_parada_${i}`, `/src/scenes/assets/parada/frame_${i}_delay-0.1s.png`);
+        }
 
         // Andando (walking)
-        this.load.image('fujimo_andando_1', '/src/scenes/assets/andando/fujimo_andando_1.png');
-        this.load.image('fujimo_andando_2', '/src/scenes/assets/andando/fujimo_andando_2.png');
-        this.load.image('fujimo_andando_3', '/src/scenes/assets/andando/fujimo_andando_3.png');
-        this.load.image('fujimo_andando_4', '/src/scenes/assets/andando/fujimo_andando_4.png');
-        this.load.image('fujimo_andando_5', '/src/scenes/assets/andando/fujimo_andando_5.png');
-        this.load.image('fujimo_andando_6', '/src/scenes/assets/andando/fujimo_andando_6.png');
-        this.load.image('fujimo_andando_7', '/src/scenes/assets/andando/fujimo_andando_7.png');
-        this.load.image('fujimo_andando_8', '/src/scenes/assets/andando/fujimo_andando_8.png');
+        for (let i = 1; i <= 8; i++) {
+            this.load.image(`fujimo_andando_${i}`, `/src/scenes/assets/andando/fujimo_andando_${i}.png`);
+        }
 
         // Animação especial para S (baixo)
-        this.load.image('fujimo_parada_baixo_3', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo3.png');
-        this.load.image('fujimo_parada_baixo_4', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo4.png');
-        this.load.image('fujimo_parada_baixo_5', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo5.png');
-        this.load.image('fujimo_parada_baixo_6', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo6.png');
-        this.load.image('fujimo_parada_baixo_7', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo7.png');
-        this.load.image('fujimo_parada_baixo_8', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo8.png');
-        this.load.image('fujimo_parada_baixo_1', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo1.png');
-        this.load.image('fujimo_parada_baixo_2', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo2.png');
+        for (let i = 1; i <= 8; i++) {
+            this.load.image(`fujimo_parada_baixo_${i}`, `/src/scenes/assets/andando/horizontal/fujimo_parada_baixo${i}.png`);
+        }
 
         // Andando/parada para cima (idle e walk up)
-        this.load.image('fujimo_parada_cima_1', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima1.png');
-        this.load.image('fujimo_parada_cima_2', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima2.png');
-        this.load.image('fujimo_parada_cima_3', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima3.png');
-        this.load.image('fujimo_parada_cima_4', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima4.png');
-        this.load.image('fujimo_parada_cima_5', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima5.png');
-        this.load.image('fujimo_parada_cima_6', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima6.png');
-        this.load.image('fujimo_parada_cima_7', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima7.png');
+        for (let i = 1; i <= 7; i++) {
+            this.load.image(`fujimo_parada_cima_${i}`, `/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima${i}.png`);
+        }
+
+        // Natasha animações
+        this.load.image('natasha1', '/src/scenes/assets/Natasha/natasha1.png');
+        this.load.image('natasha2', '/src/scenes/assets/Natasha/natasha2.png');
+        this.load.image('natasha3', '/src/scenes/assets/Natasha/natasha3.png');
+        this.load.image('natasha4', '/src/scenes/assets/Natasha/natasha4.png');
+        this.load.image('natasha5', '/src/scenes/assets/Natasha/natasha5.png');
+        this.load.image('natasha6', '/src/scenes/assets/Natasha/natasha6.png');
     }
 
     create() {
-        var width = this.scale.width;
-        var height = this.scale.height;
+        const width = this.scale.width;
+        const height = this.scale.height;
 
-        // Tamanhos finais para background (agora floor.png) e floor original (ainda mais embaixo)
-        var floorDisplayWidth = width + 15;
-        var floorDisplayHeight = height + 15;
-
-        // Floor embaixo de tudo
+        // Floor e background
         this.floor = this.add.image(width / 2, height / 2, 'floor');
-        this.floor.setDisplaySize(floorDisplayWidth, floorDisplayHeight);
-        this.floor.setDepth(0);
+        this.floor.setDisplaySize(width + 15, height + 15).setDepth(0);
 
-        // Novo background (floor.png) acima do chão base
         this.background = this.add.image(width / 2, height / 2, 'background');
-        this.background.setDisplaySize(width, height);
-        this.background.setDepth(1);
+        this.background.setDisplaySize(width, height).setDepth(1);
 
-        // Margem em px dos móveis
-        const margem = 20;
-
-        // Móveis com margens aplicadas
-        const moveis = [
-            { key: 'pc',         x: width * 0.06    + margem, y: height * 0.35    + margem },
-            { key: 'esc_cadeira',x: width * 0.14    + margem, y: height * 0.2     + margem },
-            { key: 'armario',    x: width * 0.352   + margem, y: height * 0.86    - margem },
-            { key: 'fogao',      x: width * 0.5     + margem, y: height * 0.1     + margem },
-            { key: 'mesa',       x: width * 0.65    - margem, y: height * 0.55    - margem },
-            { key: 'pia',        x: width * 0.7     - margem, y: height * 0.1     + margem },
-            { key: 'cadeira',    x: width * 0.8     - margem, y: height * 0.56    - margem },
-            { key: 'geladeira',  x: width * 0.6     - margem, y: height * 0.1     + margem },
-            { key: 'estante',    x: width * 0.25    + margem, y: height * 0.02    + margem },
-            { key: 'lixeira',    x: width * 0.38    + margem, y: height * 0.1     + margem },
-            { key: 'futon',      x: width * 0.145   + margem, y: height * 0.86    - margem },
+        // Móveis: cada item pode ter uma margem personalizada (margin: px)
+        this.moveis = [
+            { key: 'pc',         x: width * 0.06,    y: height * 0.35, margin: 1 },
+            { key: 'esc_cadeira',x: width * 0.14,    y: height * 0.2,  margin: 1 },
+            { key: 'armario',    x: width * 0.352,   y: height * 0.86, margin: 1 },
+            { key: 'fogao',      x: width * 0.5,     y: height * 0.1,  margin: 1 },
+            { key: 'mesa',       x: width * 0.65,    y: height * 0.85, margin: 1 },
+            { key: 'pia',        x: width * 0.7,     y: height * 0.1,  margin: 1 },
+            { key: 'cadeira',    x: width * 0.8,     y: height * 0.85, margin: 1 },
+            { key: 'geladeira',  x: width * 0.6,     y: height * 0.1,  margin: 1 },
+            { key: 'estante',    x: width * 0.25,    y: height * 0.02, margin: 1 },
+            { key: 'lixeira',    x: width * 0.38,    y: height * 0.1,  margin: 1 },
+            { key: 'futon',      x: width * 0.145,   y: height * 0.86, margin: 1 },
         ];
         this.moveisSprites = [];
-        moveis.forEach((item) => {
+        this.moveisRects = [];
+        this.moveis.forEach((item) => {
             const sprite = this.add.image(item.x, item.y, item.key);
-            sprite.setDepth(2); // Todos os móveis acima do background
+            sprite.setDepth(2);
             this.moveisSprites.push(sprite);
         });
 
-        // Sprite inicial em idle/parada
-        this.fujimo = this.add.sprite(width / 2, height / 2, 'fujimo_parada_0');
-        this.fujimo.setDepth(3);
+        // Geração dinâmica do array 'moveis' (apenas com posição e key, para uso externo)
+        this.updateMoveisList = () => {
+            // Apenas retorna um array com {key, x, y, margin}
+            return this.moveis.map((item, idx) => ({
+                key: item.key,
+                x: this.moveisSprites[idx]?.x ?? item.x,
+                y: this.moveisSprites[idx]?.y ?? item.y,
+                margin: item.margin
+            }));
+        };
 
-        // Animação parada (idle) - LADO
+        // Fujimo um pouco à esquerda do centro (ex: 30% da largura)
+        const fujimoStartX = width * 0.3;
+        const fujimoStartY = height / 2;
+        this.fujimo = this.add.sprite(fujimoStartX, fujimoStartY, 'fujimo_parada_0').setDepth(3);
+
+        // Cria animações
         this.anims.create({
             key: 'idle_side',
             frames: [
@@ -124,8 +114,6 @@ export class Start extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-
-        // Animação parada (idle) - BAIXO
         this.anims.create({
             key: 'idle_down',
             frames: [
@@ -141,8 +129,6 @@ export class Start extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-
-        // Animação parada (idle) - CIMA
         this.anims.create({
             key: 'idle_up',
             frames: [
@@ -157,8 +143,6 @@ export class Start extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-
-        // Animação andando (walking) - LADO
         this.anims.create({
             key: 'walk_side',
             frames: [
@@ -174,8 +158,6 @@ export class Start extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-
-        // Animação andando (walking) - BAIXO
         this.anims.create({
             key: 'walk_down',
             frames: [
@@ -191,8 +173,6 @@ export class Start extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-
-        // Animação andando (walking) - CIMA
         this.anims.create({
             key: 'walk_up',
             frames: [
@@ -208,9 +188,33 @@ export class Start extends Phaser.Scene {
             repeat: -1
         });
 
+        // Natasha animação
+        this.anims.create({
+            key: 'natasha_anim',
+            frames: [
+                { key: 'natasha3' },
+                { key: 'natasha4' },
+                { key: 'natasha5' },
+                { key: 'natasha6' },
+                { key: 'natasha1' },
+                { key: 'natasha2' }
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
+        // Natasha parada (idle)
+        this.anims.create({
+            key: 'natasha_idle',
+            frames: [
+                { key: 'natasha3' }
+            ],
+            frameRate: 1,
+            repeat: -1
+        });
+
         this.fujimo.play('idle_side');
 
-        // Atalhos para teclas W A S D
         this.keys = this.input.keyboard.addKeys({
             up: 'W',
             left: 'A',
@@ -219,41 +223,211 @@ export class Start extends Phaser.Scene {
         });
 
         this.speed = 200;
-
         this.scale.on('resize', this.resize, this);
 
-        // Estado de movimento
         this.isMoving = false;
-        this.lastDirection = 'down'; // Começa olhando pra baixo
+        this.lastDirection = 'down';
 
-        // JOYSTICK MOBILE
         this.initMobileJoystick();
+
+        // Controle para travar o Fujimo e input durante Natasha
+        this.fujimoLocked = false;
+
+        // NATASHA: após 5 segundos, entra animação e vai até o centro
+        this.natashaSpawned = false;
+        this.time.delayedCall(5000, () => {
+            this.spawnNatasha();
+        });
     }
 
-    // Função para detectar mobile (simples)
+    spawnNatasha() {
+        if (this.natashaSpawned) return;
+        this.natashaSpawned = true;
+
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        // Natasha começa fora da tela à direita
+        this.natasha = this.add.sprite(width + 100, height / 2, 'natasha3').setDepth(5);
+        // Natasha idle (parada) ao vir para o centro
+        this.natasha.play('natasha_idle');
+
+        // Travar controles da Fujimo enquanto Natasha entra e fala
+        this.fujimoLocked = true;
+
+        // Move Natasha até o centro devagar, mas parada (idle)
+        this.natashaWalking = true;
+        this.tweens.add({
+            targets: this.natasha,
+            x: width / 2,
+            duration: 3500, // Mais lento
+            ease: 'Linear',
+            onUpdate: () => {
+                // Natasha permanece idle
+            },
+            onComplete: () => {
+                this.natashaWalking = false;
+                // Após chegar ao centro, troca ela para animação normal (se quiser)
+                this.natasha.play('natasha_anim');
+                // Após chegar ao centro, mostrar as caixas de diálogo sequenciais
+                this.showNatashaDialogs();
+            }
+        });
+    }
+
+    showNatashaDialogs() {
+        // Mensagens sequenciais animadas: "Olá", "Okey", "Começar"
+        const width = this.scale.width;
+        const height = this.scale.height;
+        const dialogs = [
+            { text: 'Olá', key: 'dialog1' },
+            { text: 'Okey', key: 'dialog2' },
+            { text: 'Começar', key: 'dialog3' }
+        ];
+
+        let dialogIndex = 0;
+        const showDialog = () => {
+            if (this.currentDialogBox) {
+                this.currentDialogBox.destroy();
+            }
+            if (dialogIndex >= dialogs.length) {
+                // Depois do último, muda para /tutorial
+                this.time.delayedCall(400, () => {
+                    this.scene.start('tutorial');
+                });
+                return;
+            }
+            // Cria caixa de diálogo animada com texto digitando
+            this.currentDialogBox = this.createAnimatedDialogBox(dialogs[dialogIndex].text, width / 2, height * 0.7, () => {
+                // Só chama o próximo após o texto aparecer completamente!
+                this.time.delayedCall(900, showDialog);
+            });
+            dialogIndex++;
+        };
+
+        showDialog();
+    }
+
+    /**
+     * Caixa de diálogo animada com efeito de "texto digitando"
+     * @param {string} text O texto a ser digitado
+     * @param {number} x
+     * @param {number} y
+     * @param {function} onComplete chamado quando o texto terminar de aparecer
+     */
+    createAnimatedDialogBox(text, x, y, onComplete) {
+        // Caixa arredondada com animação de fade in
+        const boxWidth = 220;
+        const boxHeight = 60;
+        const box = this.add.container(x, y);
+        const bg = this.add.rectangle(0, 0, boxWidth, boxHeight, 0xffffff, 0.92)
+            .setStrokeStyle(2, 0x333366, 1)
+            .setOrigin(0.5);
+        bg.setAlpha(0);
+        const txt = this.add.text(0, 0, '', {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#222',
+            align: 'center',
+            wordWrap: { width: boxWidth - 32 }
+        }).setOrigin(0.5);
+        txt.setAlpha(0);
+
+        box.add([bg, txt]);
+        box.setDepth(10);
+
+        // Fade in
+        this.tweens.add({
+            targets: [bg, txt],
+            alpha: 1,
+            duration: 300,
+            ease: 'Sine.easeIn',
+            onComplete: () => {
+                // Depois do fade in, começa o efeito de texto digitando
+                this.typewriteText(txt, text, 26, onComplete);
+            }
+        });
+
+        return box;
+    }
+
+    /**
+     * Efeito de texto digitando
+     * @param {Phaser.GameObjects.Text} textObj
+     * @param {string} fullText
+     * @param {number} delayMillis Por letra
+     * @param {function} onComplete
+     */
+    typewriteText(textObj, fullText, delayMillis, onComplete) {
+        textObj.setText('');
+        let i = 0;
+        const write = () => {
+            if (i <= fullText.length) {
+                textObj.setText(fullText.slice(0, i));
+                i++;
+                if (i <= fullText.length) {
+                    this.time.delayedCall(delayMillis, write, [], this);
+                } else if (onComplete) {
+                    onComplete();
+                }
+            }
+        };
+        write();
+    }
+
+    // Função de colisão Fujimo x Móveis (usando bounding box, com margem customizada para cada móvel)
+    checkFurnitureCollision(x, y) {
+        const fujimoHalfW = this.fujimo.displayWidth / 2;
+        const fujimoHalfH = this.fujimo.displayHeight / 2;
+        const fujimoRect = {
+            left: x - fujimoHalfW,
+            right: x + fujimoHalfW,
+            top: y - fujimoHalfH,
+            bottom: y + fujimoHalfH
+        };
+
+        for (let i = 0; i < this.moveisSprites.length; i++) {
+            const sprite = this.moveisSprites[i];
+            const item = this.moveis[i];
+            const margin = typeof item.margin === 'number' ? item.margin : 0;
+            const halfW = sprite.displayWidth / 2;
+            const halfH = sprite.displayHeight / 2;
+            const objRect = {
+                left: sprite.x - halfW - margin,
+                right: sprite.x + halfW + margin,
+                top: sprite.y - halfH - margin,
+                bottom: sprite.y + halfH + margin
+            };
+
+            // Checagem simples de AABB
+            if (
+                fujimoRect.right > objRect.left &&
+                fujimoRect.left < objRect.right &&
+                fujimoRect.bottom > objRect.top &&
+                fujimoRect.top < objRect.bottom
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     isMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
     initMobileJoystick() {
-        this.joystick = {
-            up: false,
-            down: false,
-            left: false,
-            right: false
-        };
+        this.joystick = { up: false, down: false, left: false, right: false };
         if (!this.isMobile()) {
             this.joystickContainer && this.joystickContainer.setVisible(false);
             return;
         }
-        // Cria um container para o joystick
         this.joystickContainer = this.add.container();
         const Y = this.scale.height - 80;
         const X = 80;
         const size = 44;
         const alpha = 0.8;
 
-        // Círculos de direção
         const btnLeft = this.add.circle(X - size, Y, size, 0xaaaaaa, alpha)
             .setInteractive()
             .on('pointerdown', () => this.joystick.left = true)
@@ -275,12 +449,9 @@ export class Start extends Phaser.Scene {
             .on('pointerup', () => this.joystick.down = false)
             .on('pointerout', () => this.joystick.down = false);
 
-        // Pequenos ícones ou setas opcionais (desenhe usando graphics se quiser)
-
         this.joystickContainer.add([btnLeft, btnRight, btnUp, btnDown]);
         this.joystickContainer.setDepth(100);
 
-        // Responsivo
         this.scale.on('resize', (gameSize) => {
             const Y = gameSize.height - 80;
             btnLeft.setPosition(X - size, Y);
@@ -291,51 +462,65 @@ export class Start extends Phaser.Scene {
     }
 
     update(time, delta) {
+        // Se Natasha está andando ou falando, Fujimo não pode andar
+        if (this.fujimoLocked) {
+            return;
+        }
+
         var moveAmount = (this.speed * delta) / 1000;
         var width = this.scale.width;
         var height = this.scale.height;
 
-        var newX = this.fujimo.x;
-        var newY = this.fujimo.y;
+        var prevX = this.fujimo.x;
+        var prevY = this.fujimo.y;
+        var newX = prevX;
+        var newY = prevY;
 
-        // Checa se está andando
         var isLeft = this.keys.left.isDown || (this.joystick && this.joystick.left);
         var isRight = this.keys.right.isDown || (this.joystick && this.joystick.right);
         var isUp = this.keys.up.isDown || (this.joystick && this.joystick.up);
         var isDown = this.keys.down.isDown || (this.joystick && this.joystick.down);
 
         var moving = isLeft || isRight || isUp || isDown;
-
-        // Detecção de direção prioritária (vertical > horizontal)
         var direction = null;
         if (isDown) direction = 'down';
         else if (isUp) direction = 'up';
         else if (isLeft) direction = 'left';
         else if (isRight) direction = 'right';
 
-        // Movimento físico
+        // Testa colisão EIXO X
         if (isLeft) {
-            newX -= moveAmount;
+            let candidateX = prevX - moveAmount;
+            candidateX = Phaser.Math.Clamp(candidateX, this.fujimo.displayWidth / 2, width - this.fujimo.displayWidth / 2);
+            if (!this.checkFurnitureCollision(candidateX, prevY)) {
+                newX = candidateX;
+            }
             this.fujimo.setFlipX(true);
         }
         else if (isRight) {
-            newX += moveAmount;
+            let candidateX = prevX + moveAmount;
+            candidateX = Phaser.Math.Clamp(candidateX, this.fujimo.displayWidth / 2, width - this.fujimo.displayWidth / 2);
+            if (!this.checkFurnitureCollision(candidateX, prevY)) {
+                newX = candidateX;
+            }
             this.fujimo.setFlipX(false);
         }
 
+        // Testa colisão EIXO Y
         if (isUp) {
-            newY -= moveAmount;
+            let candidateY = prevY - moveAmount;
+            candidateY = Phaser.Math.Clamp(candidateY, this.fujimo.displayHeight / 2, height - this.fujimo.displayHeight / 2);
+            if (!this.checkFurnitureCollision(newX, candidateY)) {
+                newY = candidateY;
+            }
         }
-        if (isDown) {
-            newY += moveAmount;
+        else if (isDown) {
+            let candidateY = prevY + moveAmount;
+            candidateY = Phaser.Math.Clamp(candidateY, this.fujimo.displayHeight / 2, height - this.fujimo.displayHeight / 2);
+            if (!this.checkFurnitureCollision(newX, candidateY)) {
+                newY = candidateY;
+            }
         }
-
-        // Colisão com bordas
-        var halfWidth = this.fujimo.displayWidth / 2;
-        var halfHeight = this.fujimo.displayHeight / 2;
-
-        newX = Phaser.Math.Clamp(newX, halfWidth, width - halfWidth);
-        newY = Phaser.Math.Clamp(newY, halfHeight, height - halfHeight);
 
         this.fujimo.x = newX;
         this.fujimo.y = newY;
@@ -377,51 +562,58 @@ export class Start extends Phaser.Scene {
         var width = gameSize.width;
         var height = gameSize.height;
 
-        // floor tem +15 em cada dimensão, centralizado
-        var floorDisplayWidth = width + 15;
-        var floorDisplayHeight = height + 15;
+        this.floor.setDisplaySize(width + 15, height + 15).setPosition(width / 2, height / 2);
+        this.background.setDisplaySize(width, height).setPosition(width / 2, height / 2);
 
-        this.floor.setDisplaySize(floorDisplayWidth, floorDisplayHeight);
-        this.floor.setPosition(width / 2, height / 2);
-
-        this.background.setDisplaySize(width, height);
-        this.background.setPosition(width / 2, height / 2);
-
-        // Redimensiona móveis com margem (deve ser igual ao create)
-        const margem = 20;
+        // Redimensiona móveis SEM margem, mas respeitando índices e margin do this.moveis
         if (this.moveisSprites) {
-            const moveis = [
-                { x: width * 0.06    + margem, y: height * 0.35    + margem },   // pc
-                { x: width * 0.14    + margem, y: height * 0.2     + margem },   // esc_cadeira
-                { x: width * 0.352   + margem, y: height * 0.86    - margem },   // armario
-                { x: width * 0.5     + margem, y: height * 0.1     + margem },   // fogao
-                { x: width * 0.65    - margem, y: height * 0.55    - margem },   // mesa
-                { x: width * 0.7     - margem, y: height * 0.1     + margem },   // pia
-                { x: width * 0.8     - margem, y: height * 0.56    - margem },   // cadeira
-                { x: width * 0.6     - margem, y: height * 0.1     + margem },   // geladeira
-                { x: width * 0.25    + margem, y: height * 0.02    + margem },   // estante
-                { x: width * 0.38    + margem, y: height * 0.1     + margem },   // lixeira
-                { x: width * 0.145   + margem, y: height * 0.86    - margem },   // futon
+            // Atualiza as posições de this.moveis também para manter consistência
+            const moveisPos = [
+                { x: width * 0.06,    y: height * 0.35 },
+                { x: width * 0.14,    y: height * 0.2 },
+                { x: width * 0.352,   y: height * 0.86 },
+                { x: width * 0.5,     y: height * 0.1 },
+                { x: width * 0.65,    y: height * 0.85 },
+                { x: width * 0.7,     y: height * 0.1 },
+                { x: width * 0.8,     y: height * 0.85 },
+                { x: width * 0.6,     y: height * 0.1 },
+                { x: width * 0.25,    y: height * 0.02 },
+                { x: width * 0.38,    y: height * 0.1 },
+                { x: width * 0.145,   y: height * 0.86 },
             ];
             this.moveisSprites.forEach((sprite, i) => {
-                sprite.setPosition(moveis[i].x, moveis[i].y);
+                const pos = moveisPos[i];
+                sprite.setPosition(pos.x, pos.y);
+                if (this.moveis[i]) {
+                    this.moveis[i].x = pos.x;
+                    this.moveis[i].y = pos.y;
+                }
             });
         }
 
-        this.fujimo.setPosition(width / 2, height / 2);
+        // Fujimo sempre um pouco à esquerda do centro ao redimensionar
+        const fujimoStartX = width * 0.3;
+        const fujimoStartY = height / 2;
+        this.fujimo.setPosition(fujimoStartX, fujimoStartY);
 
-        // Redimensiona joystick se existir
         if (this.joystickContainer && this.isMobile()) {
             const X = 80;
             const Y = height - 80;
             const size = 44;
             this.joystickContainer.iterate((btn, i) => {
-                // ordem: 0=left, 1=right, 2=up, 3=down
                 if (i === 0) btn.setPosition(X - size, Y);
                 if (i === 1) btn.setPosition(X + size, Y);
                 if (i === 2) btn.setPosition(X, Y - size);
                 if (i === 3) btn.setPosition(X, Y + size);
             });
+        }
+
+        // Natasha também deve ser centralizada se já estiver na tela
+        if (this.natasha) {
+            this.natasha.setY(height / 2);
+        }
+        if (this.currentDialogBox) {
+            this.currentDialogBox.setPosition(width / 2, height * 0.7);
         }
     }
 }
