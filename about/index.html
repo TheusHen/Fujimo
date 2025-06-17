@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Fujimo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" type="image/png" href="../web/assets/front.png" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-green: #caffad;
+      --main-bg: #98c799;
+      --accent-green: #c6ff8e;
+      --btn-green: #b6ff5c;
+      --shadow-green: 0 0 24px 8px #caffad55;
+      --border-radius: 18px;
+      --dark-bg: #31312c;
+      --light-gray: #b2c2c8;
+      --lucide-size: 1.3em;
+      --card-gradient: linear-gradient(135deg, #caffad55 0%, #f9fcf2 100%);
+      --panel-blue: #5e8497;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--main-bg);
+      min-height: 100vh;
+      color: #191919;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    /* Navbar/Header */
+    header {
+      display: flex;
+      align-items: center;
+      padding: 0 40px 0 40px;
+      height: 80px;
+      background: #fff;
+      border-bottom: 1.5px solid #e1e1e1;
+      justify-content: space-between;
+      position: relative;
+      z-index: 11;
+      box-shadow: 0 2px 18px #b7ebad13;
+    }
+    .logo-flex {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logo-img {
+      width: 40px;
+      height: 54px;
+      margin-right: 15px;
+      image-rendering: pixelated;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .logo-text {
+      font-size: 2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #1c4027;
+      text-shadow: 0 1px 4px #caffad55;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    .nav-link {
+      font-size: 1em;
+      color: #222;
+      text-decoration: none;
+      font-weight: 400;
+      margin-right: 4px;
+      transition: color 0.15s, font-weight 0.15s;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .nav-link:last-child {
+      margin-right: 0;
+    }
+    .nav-link:hover {
+      color: #7e8c8c;
+      background: #e5f8dd;
+      font-weight: 600;
+    }
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-right: 18px;
+      color: #323232;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 500;
+      background: #caffad;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.18s;
+      border: 1px solid #b6ff5c;
+      user-select: none;
+    }
+    .lang-switch:hover {
+      background: #b6ff5c;
+      color: #1e261e;
+    }
+    .source-btn {
+      background: #222;
+      color: #fff;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 20px;
+      box-shadow: 0 2px 14px #b6ff5c33;
+      border: 2px solid #a6e993;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .source-btn:hover {
+      background: #4c4c4c;
+      color: #d9ffb3;
+    }
+    /* Hamburger and Mobile Nav */
+    .hamburger {
+      display: none;
+      background: #191919;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      margin-left: 10px;
+      z-index: 20;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px #0002, 0 0 0 2px #b6ff5c66;
+      transition: background 0.19s, box-shadow 0.19s;
+      outline: 2.5px solid #b6ff5c;
+      outline-offset: 2px;
+    }
+    .hamburger:hover, .hamburger:focus {
+      background: #242424;
+      box-shadow: 0 0 0 3px #b6ff5c99;
+    }
+    .hamburger .lucide {
+      width: 2em;
+      height: 2em;
+      color: #f5f5f5;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 82vw;
+      max-width: 350px;
+      height: 100vh;
+      box-shadow: -6px 0 36px #b7ebad66;
+      z-index: 999;
+      padding: 35px 30px 25px 32px;
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+      transform: translateX(100%);
+      transition: transform 0.27s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+      display: flex;
+    }
+    .mobile-nav .nav-link,
+    .mobile-nav .source-btn,
+    .mobile-nav .lang-switch {
+      margin: 10px 0;
+      font-size: 1.18em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .mobile-nav .source-btn {
+      font-size: 1.14em;
+      width: 100%;
+      justify-content: center;
+    }
+    .mobile-nav .lang-switch {
+      margin-bottom: 18px;
+      justify-content: flex-start;
+    }
+    .mobile-nav .close-mobile {
+      background: none;
+      border: none;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 16px;
+      margin-top: -14px;
+      margin-right: -8px;
+    }
+    .mobile-nav .close-mobile .lucide {
+      width: 2.2em;
+      height: 2.2em;
+      color: #1c4027;
+    }
+    .mobile-nav-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0005;
+      z-index: 998;
+      animation: fadeInBackdrop 0.18s;
+    }
+    .mobile-nav-backdrop.show {
+      display: block;
+    }
+    @keyframes fadeInBackdrop {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      header {
+        padding: 0 10px 0 10px;
+        height: 64px;
+      }
+      .logo-img {
+        width: 28px;
+        height: 38px;
+        margin-right: 8px;
+      }
+      .logo-text {
+        font-size: 1.15em;
+      }
+      .mobile-nav {
+        padding: 17px 7vw 15px 7vw;
+        max-width: 98vw;
+        border-radius: 0;
+      }
+    }
+    /* About Section */
+    .main-about-wrap {
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      min-height: 78vh;
+      width: 100%;
+      max-width: 1320px;
+      background: none;
+      margin-top: 32px;
+    }
+    .about-left {
+      background: var(--panel-blue);
+      flex: 0 0 340px;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top-left-radius: 18px;
+      border-bottom-left-radius: 18px;
+      border-radius: 18px 0 0 18px;
+      box-shadow: 0 6px 44px #b7ebad22;
+      margin-right: 0px;
+      padding: 0 0 0 0;
+      min-height: 400px;
+    }
+    .about-fujimo-px {
+      width: 310px;
+      max-width: 190vw;
+      height: auto;
+      image-rendering: pixelated;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 4px 18px #0003);
+      border-radius: 18px;
+    }
+    .about-right {
+      flex: 1 1 600px;
+      background: transparent;
+      border-radius: 0 18px 18px 0;
+      padding: 20px 25px 20px 30px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .about-title {
+      font-size: 3.2em;
+      font-family: 'Josefin Sans', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0;
+      margin-top: 24px;
+      color: #212d18;
+      line-height: 1.05;
+    }
+    .about-title-jp {
+      font-size: 1.7em;
+      font-family: 'Josefin Sans', Arial, sans-serif;
+      font-weight: 600;
+      color: #1d1d1d;
+      margin-bottom: 0.4em;
+      margin-top: 0.1em;
+      border-bottom: 2.5px solid #222;
+      display: inline-block;
+      padding-bottom: 0.07em;
+      letter-spacing: 2px;
+    }
+    .about-desc {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.23em;
+      margin-top: 22px;
+      color: #212d18;
+      font-weight: 400;
+      line-height: 1.18;
+      letter-spacing: 0.018em;
+      max-width: 900px;
+      text-align: left;
+    }
+    @media (max-width: 1100px) {
+      .main-about-wrap { flex-direction: column; align-items: stretch; }
+      .about-left, .about-right { border-radius: 18px; min-width: unset; }
+      .about-left { margin: 0 auto; border-radius: 18px 18px 0 0;}
+      .about-right { padding: 28px 5vw 22px 5vw; border-radius: 0 0 18px 18px; }
+    }
+    @media (max-width: 800px) {
+      .main-about-wrap { max-width: 99vw; }
+      .about-left { flex: 0 0 50vw; }
+      .about-title { font-size: 2.28em; }
+      .about-title-jp { font-size: 1.13em; }
+      .about-desc { font-size: 1.1em; }
+    }
+    @media (max-width: 650px) {
+      .main-about-wrap { margin-top: 12px;}
+      .about-title { font-size: 1.16em; }
+      .about-title-jp { font-size: 0.96em; }
+      .about-left { padding: 14px 0 8px 0; }
+      .about-right { padding: 19px 3vw 8px 3vw;}
+      .about-fujimo-px { width: 120px; }
+      .about-desc { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo-flex" id="home-link">
+      <img src="../web/assets/front.png" alt="FUJIMO Logo" class="logo-img" id="logo-img">
+      <span class="logo-text" id="logo-text">FUJIMO</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <i class="lucide lucide-menu"></i>
+    </button>
+    <nav>
+      <span class="lang-switch" id="lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </nav>
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+    <div class="mobile-nav" id="mobile-nav">
+      <button class="close-mobile" id="close-mobile" aria-label="Close menu">
+        <i class="lucide lucide-x"></i>
+      </button>
+      <span class="lang-switch" id="mobile-lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="mobile-lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="mobile-our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="mobile-about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="mobile-created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </div>
+  </header>
+  <div class="main-about-wrap">
+    <div class="about-left">
+      <img src="../web/assets/front.png" alt="Fujimo Pixel Art" class="about-fujimo-px" />
+    </div>
+    <div class="about-right">
+      <div class="about-title" data-i18n="about_fujimo_title">ABOUT FUJIMO</div>
+      <div class="about-title-jp">フジモについて</div>
+      <div class="about-desc" data-i18n="about_fujimo_desc">
+fujimo é uma jovem  que tem dons absurdos para a moda, porem por conta de não conseguir falar em publico, isso acaba botando muitas barreiras para que ela possa decolar de vez no mundo do fashionismo  
+fujimo tem 19 anos e trabalha como desiner freelancer conseguindo se sustentar em sua pequena casa onde sua geladeira é composta por ovo mortadela e agua no pote de margarina pois todos os seus gastos vao para roupas caras,  livros e cursos sobre moda , alem de que fujimo não dorme mais de 7 horas a meses  
+fujino tambem e uma menina apatica com apenas uma amiga que não e muito diferente dela sendo a unica pessoa com quem a expressão sai de quem acabou de ver um fantasma para de uma pessoa normal
+      </div>
+    </div>
+  </div>
+  <script>
+    // Lucide icons
+    if (window.lucide && lucide.createIcons) lucide.createIcons();
+
+    // Hamburger mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+    const closeMobile = document.getElementById('close-mobile');
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileNavBackdrop.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileNavBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMobileNav);
+    closeMobile.addEventListener('click', closeMobileNav);
+    mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+    // Add navigation for mobile nav links
+    document.getElementById('mobile-created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/created';
+    });
+    document.getElementById('home-link').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-img').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-text').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+
+    // Desktop nav link redirects
+    document.getElementById('created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/created';
+    });
+    document.getElementById('our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/team';
+    });
+    document.getElementById('about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/about';
+    });
+    document.getElementById('mobile-our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/team';
+    });
+    document.getElementById('mobile-about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/about';
+    });
+
+    // i18n dictionaries (EN/PT-BR)
+    const translations = {
+      pt: {
+        'EN': 'PT-BR',
+        'our_team': 'Nosso Time',
+        'about': 'Sobre',
+        'created_with': 'Criado Com',
+        'license': 'LICENÇA',
+        'source_code': 'Código Fonte',
+        'about_fujimo_title': 'SOBRE FUJIMO',
+        'about_fujimo_desc': `fujimo é uma jovem  que tem dons absurdos para a moda, porem por conta de não conseguir falar em publico, isso acaba botando muitas barreiras para que ela possa decolar de vez no mundo do fashionismo  
+fujimo tem 19 anos e trabalha como desiner freelancer conseguindo se sustentar em sua pequena casa onde sua geladeira é composta por ovo mortadela e agua no pote de margarina pois todos os seus gastos vao para roupas caras,  livros e cursos sobre moda , alem de que fujimo não dorme mais de 7 horas a meses  
+fujino tambem e uma menina apatica com apenas uma amiga que não e muito diferente dela sendo a unica pessoa com quem a expressão sai de quem acabou de ver um fantasma para de uma pessoa normal`
+      },
+      en: {
+        'EN': 'EN',
+        'our_team': 'Our Team',
+        'about': 'About',
+        'created_with': 'Created With',
+        'license': 'LICENSE',
+        'source_code': 'Source Code',
+        'about_fujimo_title': 'ABOUT FUJIMO',
+        'about_fujimo_desc': `Fujimo is a young woman with amazing fashion talents, but because she can’t speak in public, she ends up putting up many barriers that prevent her from taking off in the world of fashion.  
+Fujimo is 19 years old and works as a freelance designer, managing to support herself in her small house where her fridge is made up of eggs, mortadella, and water in a margarine pot, since all her money goes to expensive clothes, books, and fashion courses. She also hasn’t slept more than 7 hours in months.  
+Fujimo is also an apathetic girl with only one friend who isn’t much different from her, being the only person whose expression changes from "just saw a ghost" to that of a normal person.`
+      }
+    };
+    var currentLang = 'en';
+
+    function translatePage(lang) {
+      // Desktop
+      document.querySelectorAll('[data-i18n]:not(.mobile-nav [data-i18n])').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('lang-label').innerText = translations[lang]['EN'];
+      // Mobile
+      document.querySelectorAll('.mobile-nav [data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('mobile-lang-label').innerText = translations[lang]['EN'];
+    }
+
+    document.getElementById('lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+    document.getElementById('mobile-lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+
+    // Inicialização
+    translatePage(currentLang);
+  </script>
+</body>
+</html>

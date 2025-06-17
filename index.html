@@ -1,49 +1,987 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Fujimo</title>
-        <style>
-            /* Reset CSS: Please avoid making changes here unless you know what you're doing :) */
-            *,
-            *::before,
-            *::after {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-    
-            html, body {
-                width: 100%;
-                height: 100%;
-            }
-    
-            body {
-                line-height: 1;
-                font-family: Arial, sans-serif;
-                background-color: #040218;
-            }
-    
-            ol, ul {
-                list-style: none;
-            }
-    
-            img, video {
-                max-width: 100%;
-                height: auto;
-                display: block;
-            }
-    
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="game-container"></div>
-        <script src="./phaser.js"></script>
-        <script type="module" src="./src/main.js"></script>
-    </body>
-    </html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fujimo - A Designer Silenciosa</title>
+  <meta name="description" content="Conheça Fujimo, uma jovem estilista talentosa que luta contra seus próprios bloqueios para conquistar o mundo da moda com atitude e estilo." />
+  <meta name="author" content="EletronicWave" />
+
+  <meta property="og:title" content="Fujimo - A Designer Silenciosa" />
+  <meta property="og:description" content="Fujimo é uma jovem de 19 anos que, apesar de seus desafios pessoais, transforma sua paixão pela moda em um estilo único. Viva sua história!" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fujimo - A Designer Silenciosa" />
+  <meta name="twitter:description" content="Explore a vida intensa de Fujimo, uma estilista introvertida que desafia seus limites para criar moda autêntica em um mundo barulhento." />
+
+  <link rel="icon" type="image/png" href="/web/assets/front.png" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Framer Motion CDN (for web animations) -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-green: #caffad;
+      --main-bg: #e6f7e6;
+      --accent-green: #c6ff8e;
+      --btn-green: #b6ff5c;
+      --shadow-green: 0 0 24px 8px #caffad55;
+      --border-radius: 18px;
+      --dark-bg: #31312c;
+      --light-gray: #b2c2c8;
+      --lucide-size: 1.3em;
+      --star-yellow: #ffe65c;
+      --star-bg: #fffbe7;
+      --card-gradient: linear-gradient(135deg, #caffad55 0%, #f9fcf2 100%);
+      --team-card-bg: #9fb3bd;
+      --team-bg: #98c799;
+      --team-card-radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--main-bg);
+      min-height: 100vh;
+      color: #191919;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    /* Navbar */
+    header {
+      display: flex;
+      align-items: center;
+      padding: 0 40px 0 40px;
+      height: 80px;
+      background: #fff;
+      border-bottom: 1.5px solid #e1e1e1;
+      justify-content: space-between;
+      position: relative;
+      z-index: 11;
+      box-shadow: 0 2px 18px #b7ebad13;
+    }
+    .logo-flex {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logo-img {
+      width: 40px;
+      height: 54px;
+      margin-right: 15px;
+      image-rendering: pixelated;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .logo-text {
+      font-size: 2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #1c4027;
+      text-shadow: 0 1px 4px #caffad55;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    .nav-link {
+      font-size: 1em;
+      color: #222;
+      text-decoration: none;
+      font-weight: 400;
+      margin-right: 4px;
+      transition: color 0.15s, font-weight 0.15s;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .nav-link:last-child {
+      margin-right: 0;
+    }
+    .nav-link:hover {
+      color: #7e8c8c;
+      background: #e5f8dd;
+      font-weight: 600;
+    }
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-right: 18px;
+      color: #323232;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 500;
+      background: #caffad;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.18s;
+      border: 1px solid #b6ff5c;
+      user-select: none;
+    }
+    .lang-switch:hover {
+      background: #b6ff5c;
+      color: #1e261e;
+    }
+    .source-btn {
+      background: #222;
+      color: #fff;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 20px;
+      box-shadow: 0 2px 14px #b6ff5c33;
+      border: 2px solid #a6e993;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .source-btn:hover {
+      background: #4c4c4c;
+      color: #d9ffb3;
+    }
+    /* Hamburger and Mobile Nav */
+    .hamburger {
+      display: none;
+      background: #191919;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      margin-left: 10px;
+      z-index: 20;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px #0002, 0 0 0 2px #b6ff5c66;
+      transition: background 0.19s, box-shadow 0.19s;
+      outline: 2.5px solid #b6ff5c;
+      outline-offset: 2px;
+    }
+    .hamburger:hover, .hamburger:focus {
+      background: #242424;
+      box-shadow: 0 0 0 3px #b6ff5c99;
+    }
+    .hamburger .lucide {
+      width: 2em;
+      height: 2em;
+      color: #f5f5f5;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 82vw;
+      max-width: 350px;
+      height: 100vh;
+      box-shadow: -6px 0 36px #b7ebad66;
+      z-index: 999;
+      padding: 35px 30px 25px 32px;
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+      transform: translateX(100%);
+      transition: transform 0.27s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+      display: flex;
+    }
+    .mobile-nav .nav-link,
+    .mobile-nav .source-btn,
+    .mobile-nav .lang-switch {
+      margin: 10px 0;
+      font-size: 1.18em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .mobile-nav .source-btn {
+      font-size: 1.14em;
+      width: 100%;
+      justify-content: center;
+    }
+    .mobile-nav .lang-switch {
+      margin-bottom: 18px;
+      justify-content: flex-start;
+    }
+    .mobile-nav .close-mobile {
+      background: none;
+      border: none;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 16px;
+      margin-top: -14px;
+      margin-right: -8px;
+    }
+    .mobile-nav .close-mobile .lucide {
+      width: 2.2em;
+      height: 2.2em;
+      color: #1c4027;
+    }
+    .mobile-nav-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0005;
+      z-index: 998;
+      animation: fadeInBackdrop 0.18s;
+    }
+    .mobile-nav-backdrop.show {
+      display: block;
+    }
+    @keyframes fadeInBackdrop {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      header {
+        padding: 0 10px 0 10px;
+        height: 64px;
+      }
+      .logo-img {
+        width: 28px;
+        height: 38px;
+        margin-right: 8px;
+      }
+      .logo-text {
+        font-size: 1.15em;
+      }
+      .mobile-nav {
+        padding: 17px 7vw 15px 7vw;
+        max-width: 98vw;
+        border-radius: 0;
+      }
+    }
+    /* Star background */
+    .star-bg {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99;
+      overflow: hidden;
+      background: transparent !important;
+    }
+    /* Main Content, Testimonials, etc. ... Keep unchanged ... */
+    .main-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 48px auto 0 auto;
+      max-width: 1200px;
+      min-height: 600px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 48px #caffad33;
+      border-radius: var(--border-radius);
+      background: var(--card-gradient);
+      overflow: hidden;
+    }
+    .left-box {
+      z-index: 10;
+      background: #b2c2c8;
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+      width: 480px;
+      padding: 56px 40px 40px 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      min-height: 700px;
+      position: relative;
+      box-shadow: 0 8px 32px #b7ebad22;
+      border-right: 4px solid #e6f7e6;
+    }
+    .left-box::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #b2c2c8 70%, transparent 100%);
+    }
+    .headline {
+      font-size: 5.2em;
+      font-weight: 300;
+      margin: 0 0 0.2em 0;
+      letter-spacing: 2px;
+      line-height: 1;
+      color: #1c4027;
+      text-shadow: 0 2px 12px #caffad44;
+      animation: fadeInDown 0.9s cubic-bezier(.43,.13,.46,1.15);
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-40px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .jp-text {
+      font-size: 2.6em;
+      font-weight: 400;
+      position: absolute;
+      top: 50px; right: 26px;
+      writing-mode: vertical-rl;
+      letter-spacing: 6px;
+      color: #222;
+      font-family: 'Montserrat', Arial, sans-serif;
+      opacity: 0.93;
+      text-shadow: 0 1px 4px #fff9;
+      animation: fadeInRight 1.1s 0.2s cubic-bezier(.43,.13,.46,1.15) backwards;
+    }
+    @keyframes fadeInRight {
+      0% { opacity: 0; transform: translateX(40px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    .line-deco {
+      z-index: 60;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 36px;
+      pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="black" stroke-width="2" viewBox="0 0 36 540" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 Q36,40 18,80 Q0,120 18,160 Q36,200 18,240 Q0,280 18,320 Q36,360 18,400 Q0,440 18,480 Q36,520 18,540" /></svg>') no-repeat right center/cover;
+      opacity: 0.8;
+    }
+    .box-section {
+      background: #9fb3bd;
+      color: #fff;
+      padding: 16px 22px 12px 22px;
+      border-radius: 9px;
+      margin: 13px 0;
+      font-size: 1.17em;
+      width: 100%;
+      box-shadow: 0 3px 12px #0002;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      border-left: 5px solid #fff6;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.8s cubic-bezier(.43,.13,.46,1.15);
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .box-section small {
+      font-size: 0.89em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e3e3e3;
+      margin-bottom: 2px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .box-section span {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.21em;
+      letter-spacing: 0.05em;
+      font-weight: 200;
+      margin-top: 0.5em;
+    }
+    .play-btn {
+      margin-top: 38px;
+      background: var(--btn-green);
+      color: #0b2100;
+      padding: 13px 46px;
+      border: 2px solid #222;
+      border-radius: 12px;
+      font-size: 1.45em;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-green);
+      transition: background 0.19s, color 0.19s, transform 0.15s, box-shadow 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeInUp 1.1s 0.2s cubic-bezier(.43,.13,.46,1.15) backwards;
+    }
+    .play-btn:hover {
+      background: #e0febc;
+      color: #1d4d00;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 24px #caffad77;
+    }
+    .main-right {
+      flex: 1;
+      background: #89b47e33;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 700px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 36px #caffad33;
+      padding: 0 15px;
+    }
+    .fujimo-art {
+      position: relative;
+      width: 370px;
+      min-width: 240px;
+      max-width: 370px;
+      height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: row;
+      gap: 16px;
+      margin: 0 auto;
+    }
+    .pixel-img {
+      width: 220px;
+      height: auto;
+      image-rendering: pixelated;
+      display: block;
+      background: #a3cfa3;
+      border-radius: 16px;
+      box-shadow: 0 0 24px #b7ebad77;
+      border: 2px solid #caffadcc;
+      position: relative;
+      z-index: 2;
+      transition: box-shadow 0.35s, transform 0.25s;
+      animation: pixelPop 0.8s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .pixel-img.back {
+      z-index: 1;
+      animation-delay: 0.13s;
+    }
+    .pixel-img.front {
+      z-index: 2;
+      animation-delay: 0.25s;
+    }
+    .vinyl {
+      position: absolute;
+      top: 38px;
+      right: 32px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      box-shadow: 0 2px 15px #0005;
+      z-index: 4;
+      background: #fff;
+      border: 4px solid #111;
+      object-fit: cover;
+      animation: vinylSpin 2.5s cubic-bezier(.43,.13,.46,1.15);
+    }
+    @keyframes pixelPop {
+      0% { opacity: 0; transform: scale(0.9) rotate(-5deg);}
+      100% { opacity: 1; transform: scale(1) rotate(0);}
+    }
+    @keyframes vinylSpin {
+      0% { transform: scale(0.7) rotate(-90deg);}
+      100% { transform: scale(1) rotate(0);}
+    }
+    /* Testimonials */
+    .testimonials {
+      display: flex;
+      gap: 18px;
+      padding: 32px 44px 32px 44px;
+      background: var(--dark-bg);
+      color: #fff;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      box-shadow: 0 2px 28px #b7ebad33;
+      margin: 0 auto;
+      max-width: 1200px;
+      margin-bottom: 40px;
+      margin-top: -16px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1.2s 0.3s;
+    }
+    .testimonial-card {
+      background: var(--star-bg);
+      border-radius: 18px;
+      padding: 22px 28px 17px 28px;
+      min-width: 210px;
+      min-height: 95px;
+      max-width: 280px;
+      flex: 1 1 215px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-right: 0;
+      margin-left: 0;
+      box-shadow: 0 2px 12px #0001, 0 8px 28px #caffad22;
+      border: 2px solid #a6e993;
+      margin-bottom: 12px;
+      margin-top: 7px;
+      transition: box-shadow 0.22s, transform 0.19s;
+      animation: fadeInUp 1.1s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .testimonial-card:hover {
+      box-shadow: 0 4px 24px #b6ff5c88, 0 1.5px 4px #a6e993;
+      transform: translateY(-6px) scale(1.04);
+    }
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 700;
+      font-size: 1.10em;
+      color: #1c4027;
+    }
+    .testimonial-header .lucide {
+      color: #a169f7;
+      background: #fff;
+      border-radius: 50%;
+      font-size: var(--lucide-size);
+      border: 1.5px solid #a169f7;
+      padding: 2px;
+    }
+    .testimonial-role {
+      font-weight: 600;
+      font-size: 0.99em;
+      opacity: 0.85;
+      margin-left: 3px;
+      color: #5c4e7a;
+    }
+    .testimonial-body {
+      font-style: italic;
+      font-size: 1.06em;
+      color: #2e2e2e;
+      margin-top: 2px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+    .testimonial-stars {
+      margin-top: 11px;
+      display: flex;
+      gap: 2px;
+    }
+    .testimonial-stars .lucide {
+      color: var(--star-yellow);
+      font-size: 1.3em;
+      margin-right: 0;
+      vertical-align: middle;
+      filter: drop-shadow(0 0 2px #ffe65c79);
+      animation: sparkle 1.5s infinite alternate;
+    }
+    @keyframes sparkle {
+      0% { opacity: 0.7; transform: scale(1);}
+      100% { opacity: 1; transform: scale(1.12) rotate(-8deg);}
+    }
+    .animated-star {
+      position: absolute;
+      pointer-events: none;
+      width: 14px;
+      height: 14px;
+      color: var(--star-yellow);
+      opacity: 0.75;
+      filter: drop-shadow(0 0 8px #ffe65c55);
+      z-index: 100;
+      transition: opacity 0.5s;
+      animation: starTwinkle 3s infinite alternate;
+      will-change: opacity;
+    }
+    @keyframes starTwinkle {
+      0% { opacity: 0.5; }
+      40% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+    @media (max-width: 1100px) {
+      .main-wrap { flex-direction: column; align-items: stretch; }
+      .left-box, .main-right {
+        width: 100%;
+        border-radius: var(--border-radius);
+        min-height: unset;
+      }
+      .main-right { margin-top: 0; }
+      .testimonials { flex-wrap: wrap; }
+      .fujimo-art { width: 100%; min-width:unset; max-width:unset; }
+    }
+    @media (max-width: 850px) {
+      .left-box { padding: 38px 20px 24px 20px; }
+      .main-wrap { margin: 18px auto 0 auto; }
+      .testimonials { padding: 22px 8px; }
+      .main-wrap, .testimonials { max-width: 99vw; }
+    }
+    @media (max-width: 650px) {
+      .main-wrap, .testimonials { max-width: 99vw; }
+      .headline { font-size: 2.6em; }
+      .jp-text { font-size: 1.3em; }
+      .fujimo-art { height: 200px; }
+      .pixel-img { max-width: 110px; }
+      .vinyl { width: 50px; height: 50px; top: 16px; right: 11px; }
+      .left-box { padding: 15px 5px 17px 9px; }
+      .testimonial-card { min-width: unset; max-width: 96vw; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Star Background Animation -->
+  <div class="star-bg" id="star-bg"></div>
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo-flex" id="home-link">
+      <img src="./web/assets/front.png" alt="FUJIMO Logo" class="logo-img" id="logo-img">
+      <span class="logo-text" id="logo-text">FUJIMO</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <i class="lucide lucide-menu"></i>
+    </button>
+    <nav>
+      <span class="lang-switch" id="lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="./LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </nav>
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+    <div class="mobile-nav" id="mobile-nav">
+      <button class="close-mobile" id="close-mobile" aria-label="Close menu">
+        <i class="lucide lucide-x"></i>
+      </button>
+      <span class="lang-switch" id="mobile-lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="mobile-lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="mobile-our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="mobile-about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="mobile-created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="./LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </div>
+  </header>
+  <!-- Main Section -->
+  <div class="main-wrap">
+    <div class="left-box">
+      <div class="headline" data-i18n="headline">FUJIMO</div>
+      <div class="jp-text">フジモ</div>
+      <div class="line-deco"></div>
+      <div class="box-section">
+        <small data-i18n="created_based_on">Created based on knowledge in</small>
+        <span data-i18n="how_to_speak">HOW TO SPEAK IN PUBLIC</span>
+      </div>
+      <div class="box-section">
+        <small data-i18n="created_based_on">Created based on knowledge in</small>
+        <span data-i18n="game_creation">GAME CREATION</span>
+      </div>
+      <div class="box-section">
+        <small data-i18n="created_based_on">Created based on knowledge in</small>
+        <span data-i18n="fashionism">FASHIONISM</span>
+      </div>
+      <button class="play-btn" id="play-btn">
+        <span data-i18n="play_now">Play Now</span>
+        <i class="lucide lucide-arrow-right"></i>
+      </button>
+    </div>
+    <div class="main-right" style="position:relative;">
+      <div class="fujimo-art">
+        <img src="./web/assets/front.png" alt="Fujimo Front" class="pixel-img front">
+        <img src="./web/assets/back.png" alt="Fujimo Back" class="pixel-img back">
+      </div>
+      <img src="./web/assets/vinyl.png" alt="Vinyl" class="vinyl">
+    </div>
+  </div>
+  <!-- Testimonials -->
+  <div class="testimonials">
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <i class="lucide lucide-user"></i>
+        TheusHen <span class="testimonial-role" data-i18n="developer">Developer</span>
+      </div>
+      <div class="testimonial-body" data-i18n="testimonial1">
+        "One of my best projects"
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <i class="lucide lucide-user"></i>
+        ChicoLiro <span class="testimonial-role" data-i18n="designer">Designer</span>
+      </div>
+      <div class="testimonial-body" data-i18n="testimonial2">
+        “Falling in love about Fumijo Desing”
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <i class="lucide lucide-user"></i>
+        Luan Figueiredo <span class="testimonial-role" data-i18n="design_supervisor">Design Supervisor</span>
+      </div>
+      <div class="testimonial-body" data-i18n="testimonial3">
+        “An great project”
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <i class="lucide lucide-user"></i>
+        Andre Schimit <span class="testimonial-role" data-i18n="audio_supervisor">Audio Supervisor</span>
+      </div>
+      <div class="testimonial-body" data-i18n="testimonial4">
+        “Nice soundtrack”
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-header">
+        <i class="lucide lucide-user"></i>
+        Milena <span class="testimonial-role" data-i18n="feedback">Feedback</span>
+      </div>
+      <div class="testimonial-stars" style="margin-top: 8px; margin-bottom: 7px;">
+        <i class="lucide lucide-star"></i>
+        <i class="lucide lucide-star"></i>
+        <i class="lucide lucide-star"></i>
+        <i class="lucide lucide-star"></i>
+        <i class="lucide lucide-star"></i>
+      </div>
+      <div class="testimonial-body" style="margin-top: 0;" data-i18n="testimonial5">
+        “Awesome!”
+      </div>
+    </div>
+  </div>
+  <script>
+    if (window.lucide && lucide.createIcons) lucide.createIcons();
+
+    // Hamburger mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+    const closeMobile = document.getElementById('close-mobile');
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileNavBackdrop.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileNavBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMobileNav);
+    closeMobile.addEventListener('click', closeMobileNav);
+    mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+    // Add navigation for mobile nav links
+    document.getElementById('mobile-created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/created';
+    });
+    document.getElementById('home-link').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-img').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-text').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+
+    // Desktop nav link redirects
+    document.getElementById('created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/created';
+    });
+    document.getElementById('our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/team';
+    });
+    document.getElementById('about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/about';
+    });
+    document.getElementById('mobile-our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/team';
+    });
+    document.getElementById('mobile-about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/about';
+    });
+
+    // Star background animation (vanilla js)
+    function randomBetween(a, b) {
+      return Math.random() * (b - a) + a;
+    }
+    function createStar(x, y, size, delay, duration, rotate) {
+      const el = document.createElement('div');
+      el.className = "animated-star";
+      el.style.left = x + "vw";
+      el.style.top = y + "vh";
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.opacity = 0;
+      el.style.position = "absolute";
+      el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#ffe65c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="${size}" height="${size}" style="transform: rotate(${rotate}deg);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+      setTimeout(() => {
+        el.style.opacity = 1;
+      }, delay * 1000);
+      let t = 0;
+      const twinkle = () => {
+        t += 0.03 + Math.random() * 0.02;
+        el.style.opacity = 0.6 + Math.abs(Math.sin(t + delay)) * 0.4;
+        requestAnimationFrame(twinkle);
+      };
+      twinkle();
+      return el;
+    }
+    function makeStars() {
+      const starBg = document.getElementById("star-bg");
+      starBg.innerHTML = "";
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      let starCount = Math.max(32, Math.floor((width * height) / 18000));
+      for (let i = 0; i < starCount; i++) {
+        const x = randomBetween(2, 98);
+        const y = randomBetween(1, 99);
+        const size = randomBetween(10, 20);
+        const delay = randomBetween(0, 4);
+        const duration = randomBetween(2, 5);
+        const rotate = randomBetween(-18, 18);
+        starBg.appendChild(createStar(x, y, size, delay, duration, rotate));
+      }
+    }
+    makeStars();
+    window.addEventListener('resize', makeStars);
+
+    // Animate testimonial cards (bounce in)
+    if (window.framerMotion && window.framerMotion.animate) {
+      document.querySelectorAll('.testimonial-card').forEach((el, idx) => {
+        el.style.opacity = 0;
+        setTimeout(() => {
+          if (window.framerMotion) {
+            framerMotion.animate(el, { opacity: [0, 1], y: [40, 0] }, { duration: 0.75, delay: 0.3 + idx * 0.12, ease: "easeOut" });
+          } else {
+            el.style.opacity = 1;
+          }
+        }, 220 + idx * 90);
+      });
+    }
+
+    // Animate play button on hover (framer motion)
+    const playBtn = document.querySelector('.play-btn');
+    if (window.framerMotion && playBtn) {
+      playBtn.addEventListener('mouseenter', () => {
+        framerMotion.animate(playBtn, { scale: [1, 1.08, 1] }, { duration: 0.28 });
+      });
+    }
+
+    // REDIRECT ON PLAY NOW CLICK
+    if (playBtn) {
+      playBtn.addEventListener('click', function() {
+        window.location.href = "/play";
+      });
+    }
+
+    // i18n dictionaries
+    const translations = {
+      pt: {
+        'EN': 'PT-BR',
+        'our_team': 'Nosso Time',
+        'about': 'Sobre',
+        'created_with': 'Criado Com',
+        'license': 'LICENÇA',
+        'source_code': 'Código Fonte',
+        'headline': 'FUJIMO',
+        'created_based_on': 'Criado com base no conhecimento em',
+        'how_to_speak': 'COMO FALAR EM PÚBLICO',
+        'game_creation': 'CRIAÇÃO DE JOGOS',
+        'fashionism': 'MODA',
+        'play_now': 'Jogar Agora',
+        'developer': 'Desenvolvedor',
+        'designer': 'Designer',
+        'design_supervisor': 'Supervisor de Design',
+        'audio_supervisor': 'Supervisor de Áudio',
+        'feedback': 'Feedback',
+        'testimonial1': '“Um dos meus melhores projetos”',
+        'testimonial2': '“Apaixonado pelo design da Fumijo”',
+        'testimonial3': '“Um grande projeto”',
+        'testimonial4': '“Trilha sonora incrível”',
+        'testimonial5': '“Sensacional!”'
+      },
+      en: {
+        'EN': 'EN',
+        'our_team': 'Our Team',
+        'about': 'About',
+        'created_with': 'Created With',
+        'license': 'LICENSE',
+        'source_code': 'Source Code',
+        'headline': 'FUJIMO',
+        'created_based_on': 'Created based on knowledge in',
+        'how_to_speak': 'HOW TO SPEAK IN PUBLIC',
+        'game_creation': 'GAME CREATION',
+        'fashionism': 'FASHIONISM',
+        'play_now': 'Play Now',
+        'developer': 'Developer',
+        'designer': 'Designer',
+        'design_supervisor': 'Design Supervisor',
+        'audio_supervisor': 'Audio Supervisor',
+        'feedback': 'Feedback',
+        'testimonial1': '"One of my best projects"',
+        'testimonial2': '“Falling in love about Fumijo Desing”',
+        'testimonial3': '“An great project”',
+        'testimonial4': '“Nice soundtrack”',
+        'testimonial5': '“Awesome!”'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function translatePage(lang) {
+      // Desktop
+      document.querySelectorAll('[data-i18n]:not(.mobile-nav [data-i18n])').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('lang-label').innerText = translations[lang]['EN'];
+      // Mobile
+      document.querySelectorAll('.mobile-nav [data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('mobile-lang-label').innerText = translations[lang]['EN'];
+    }
+
+    document.getElementById('lang-switch').addEventListener('click', function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    });
+    document.getElementById('mobile-lang-switch').addEventListener('click', function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    });
+
+    // On load, set initial translation
+    translatePage(currentLang);
+  </script>
+</body>
+</html>

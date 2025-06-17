@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Created With Phaser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+  <link rel="icon" type="image/png" href="../web/assets/front.png" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-green: #caffad;
+      --main-bg: #e6f7e6;
+      --accent-green: #c6ff8e;
+      --btn-green: #b6ff5c;
+      --shadow-green: 0 0 24px 8px #caffad55;
+      --border-radius: 18px;
+      --dark-bg: #31312c;
+      --light-gray: #b2c2c8;
+      --lucide-size: 1.3em;
+      --star-yellow: #ffe65c;
+      --star-bg: #fffbe7;
+      --card-gradient: linear-gradient(135deg, #caffad55 0%, #f9fcf2 100%);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--main-bg);
+      min-height: 100vh;
+      color: #191919;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 0 40px 0 40px;
+      height: 80px;
+      background: #fff;
+      border-bottom: 1.5px solid #e1e1e1;
+      justify-content: space-between;
+      position: relative;
+      z-index: 11;
+      box-shadow: 0 2px 18px #b7ebad13;
+    }
+    .logo-flex {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logo-img {
+      width: 40px;
+      height: 54px;
+      margin-right: 15px;
+      image-rendering: pixelated;
+      border-radius: 8px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+    .logo-text {
+      font-size: 2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #1c4027;
+      text-shadow: 0 1px 4px #caffad55;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    .nav-link {
+      font-size: 1em;
+      color: #222;
+      text-decoration: none;
+      font-weight: 400;
+      margin-right: 4px;
+      transition: color 0.15s, font-weight 0.15s;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .nav-link:last-child {
+      margin-right: 0;
+    }
+    .nav-link:hover {
+      color: #7e8c8c;
+      background: #e5f8dd;
+      font-weight: 600;
+    }
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-right: 18px;
+      color: #323232;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 500;
+      background: #caffad;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.18s;
+      border: 1px solid #b6ff5c;
+      user-select: none;
+    }
+    .lang-switch:hover {
+      background: #b6ff5c;
+      color: #1e261e;
+    }
+    .source-btn {
+      background: #222;
+      color: #fff;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 20px;
+      box-shadow: 0 2px 14px #b6ff5c33;
+      border: 2px solid #a6e993;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .source-btn:hover {
+      background: #4c4c4c;
+      color: #d9ffb3;
+    }
+    /* Hamburger and Mobile Nav */
+    .hamburger {
+      display: none;
+      background: #191919;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      margin-left: 10px;
+      z-index: 20;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px #0002, 0 0 0 2px #b6ff5c66;
+      transition: background 0.19s, box-shadow 0.19s;
+      outline: 2.5px solid #b6ff5c;
+      outline-offset: 2px;
+    }
+    .hamburger:hover, .hamburger:focus {
+      background: #242424;
+      box-shadow: 0 0 0 3px #b6ff5c99;
+    }
+    .hamburger .lucide {
+      width: 2em;
+      height: 2em;
+      color: #f5f5f5;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 82vw;
+      max-width: 350px;
+      height: 100vh;
+      box-shadow: -6px 0 36px #b7ebad66;
+      z-index: 999;
+      padding: 35px 30px 25px 32px;
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+      transform: translateX(100%);
+      transition: transform 0.27s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+      display: flex;
+    }
+    .mobile-nav .nav-link,
+    .mobile-nav .source-btn,
+    .mobile-nav .lang-switch {
+      margin: 10px 0;
+      font-size: 1.18em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .mobile-nav .source-btn {
+      font-size: 1.14em;
+      width: 100%;
+      justify-content: center;
+    }
+    .mobile-nav .lang-switch {
+      margin-bottom: 18px;
+      justify-content: flex-start;
+    }
+    .mobile-nav .close-mobile {
+      background: none;
+      border: none;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 16px;
+      margin-top: -14px;
+      margin-right: -8px;
+    }
+    .mobile-nav .close-mobile .lucide {
+      width: 2.2em;
+      height: 2.2em;
+      color: #1c4027;
+    }
+    .mobile-nav-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0005;
+      z-index: 998;
+      animation: fadeInBackdrop 0.18s;
+    }
+    .mobile-nav-backdrop.show {
+      display: block;
+    }
+    @keyframes fadeInBackdrop {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      header { padding: 0 8px 0 10px; height: 64px;}
+      .logo-text { font-size: 1.1em; }
+      .logo-img { width: 28px; height: 38px; }
+      .mobile-nav {
+        padding: 17px 7vw 15px 7vw;
+        max-width: 98vw;
+        border-radius: 0;
+      }
+    }
+    /* Main page styles (centered content) */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 70px;
+      padding: 40px 0 0 0;
+    }
+    h1 {
+      font-size: 5vw;
+      font-weight: 200;
+      margin: 0 0 2vw 0;
+      letter-spacing: 0.05em;
+      text-align: center;
+      color: #191919;
+      user-select: none;
+    }
+    .phaser-img {
+      max-width: 30vw;
+      width: 400px;
+      min-width: 220px;
+      margin-bottom: 2.5vw;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.12));
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .secondary-source-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #6EA1C6;
+      color: #191919;
+      border: none;
+      border-radius: 12px;
+      font-size: 2vw;
+      font-family: inherit;
+      padding: 1vw 2.5vw;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s, color 0.15s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+      margin-top: 3vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .secondary-source-btn:hover, .secondary-source-btn:focus {
+      background: #5583a9;
+      color: #fff;
+    }
+    @media (max-width: 650px) {
+      .main-content { padding: 18px 0 0 0; }
+      h1 { font-size: 2.3rem; }
+      .phaser-img { width: 70vw; min-width: 120px; }
+      .secondary-source-btn { font-size: 1.1rem; padding: 14px 30px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar/Header -->
+  <header>
+    <div class="logo-flex" id="home-link">
+      <img src="../web/assets/front.png" alt="FUJIMO Logo" class="logo-img" id="logo-img">
+      <span class="logo-text" id="logo-text">FUJIMO</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <i class="lucide lucide-menu"></i>
+    </button>
+    <nav>
+      <span class="lang-switch" id="lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" id="navbar-source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </nav>
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+    <div class="mobile-nav" id="mobile-nav">
+      <button class="close-mobile" id="close-mobile" aria-label="Close menu">
+        <i class="lucide lucide-x"></i>
+      </button>
+      <span class="lang-switch" id="mobile-lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="mobile-lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="mobile-our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="mobile-about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="mobile-created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </div>
+  </header>
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 id="title" data-i18n="created_with">CREATED WITH</h1>
+    <img class="phaser-img" src="./logo.png" alt="Phaser Logo" id="phaserImage"/>
+    <button class="secondary-source-btn" id="sourceBtn">
+      <span data-i18n="source_code">Source Code</span>
+    </button>
+  </div>
+  <script>
+    // Lucide icons
+    if (window.lucide && lucide.createIcons) lucide.createIcons();
+
+    // Hamburger mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+    const closeMobile = document.getElementById('close-mobile');
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileNavBackdrop.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileNavBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMobileNav);
+    closeMobile.addEventListener('click', closeMobileNav);
+    mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+    // Add navigation for mobile nav links
+    document.getElementById('mobile-created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/created';
+    });
+    document.getElementById('home-link').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-img').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-text').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+
+    // Desktop nav link redirects
+    document.getElementById('created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/created';
+    });
+    document.getElementById('our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/team';
+    });
+    document.getElementById('about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/about';
+    });
+    document.getElementById('mobile-our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/team';
+    });
+    document.getElementById('mobile-about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/about';
+    });
+
+    // Animate Framer Motion
+    if (window.framerMotion && window.framerMotion.animate) {
+      const { animate } = window.framerMotion;
+      animate("#title", { opacity: [0, 1], y: [-60, 0] }, { duration: 1, delay: 0.1, ease: "easeOut" });
+      animate("#phaserImage", { scale: [0.7, 1.08, 1], opacity: [0, 1] }, { duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] });
+      animate("#sourceBtn", { opacity: [0, 1], y: [30, 0] }, { duration: 0.8, delay: 1.2, ease: "easeOut" });
+    }
+
+    document.getElementById('sourceBtn').addEventListener('click', function() {
+      window.open('https://github.com/TheusHen/fujimo', '_blank');
+    });
+
+    // i18n dictionaries (EN/PT-BR)
+    const translations = {
+      pt: {
+        'EN': 'PT-BR',
+        'our_team': 'Nosso Time',
+        'about': 'Sobre',
+        'created_with': 'Criado Com',
+        'license': 'LICENÇA',
+        'source_code': 'Código Fonte'
+      },
+      en: {
+        'EN': 'EN',
+        'our_team': 'Our Team',
+        'about': 'About',
+        'created_with': 'Created With',
+        'license': 'LICENSE',
+        'source_code': 'Source Code'
+      }
+    };
+    var currentLang = 'en';
+
+    function translatePage(lang) {
+      // Desktop
+      document.querySelectorAll('[data-i18n]:not(.mobile-nav [data-i18n])').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('lang-label').innerText = translations[lang]['EN'];
+      // Mobile
+      document.querySelectorAll('.mobile-nav [data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('mobile-lang-label').innerText = translations[lang]['EN'];
+    }
+
+    document.getElementById('lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+    document.getElementById('mobile-lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+
+    // Inicialização
+    translatePage(currentLang);
+  </script>
+</body>
+</html>

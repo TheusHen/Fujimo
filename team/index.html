@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Team</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Framer Motion for Web -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../web/assets/front.png" />
+  <style>
+    :root {
+      --main-green: #caffad;
+      --main-bg: #e6f7e6;
+      --accent-green: #c6ff8e;
+      --btn-green: #b6ff5c;
+      --shadow-green: 0 0 24px 8px #caffad55;
+      --border-radius: 18px;
+      --dark-bg: #31312c;
+      --light-gray: #b2c2c8;
+      --lucide-size: 1.3em;
+      --star-yellow: #ffe65c;
+      --star-bg: #fffbe7;
+      --card-gradient: linear-gradient(135deg, #caffad55 0%, #f9fcf2 100%);
+      --team-card-bg: #9fb3bd;
+      --team-bg: #98c799;
+      --team-card-radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--team-bg);
+      min-height: 100vh;
+      color: #191919;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    /* Navbar - unchanged */
+    header {
+      display: flex;
+      align-items: center;
+      padding: 0 40px 0 40px;
+      height: 80px;
+      background: #fff;
+      border-bottom: 1.5px solid #e1e1e1;
+      justify-content: space-between;
+      position: relative;
+      z-index: 11;
+      box-shadow: 0 2px 18px #b7ebad13;
+    }
+    .logo-flex {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logo-img {
+      width: 40px;
+      height: 54px;
+      margin-right: 15px;
+      image-rendering: pixelated;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .logo-text {
+      font-size: 2em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #1c4027;
+      text-shadow: 0 1px 4px #caffad55;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    .nav-link {
+      font-size: 1em;
+      color: #222;
+      text-decoration: none;
+      font-weight: 400;
+      margin-right: 4px;
+      transition: color 0.15s, font-weight 0.15s;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .nav-link:last-child {
+      margin-right: 0;
+    }
+    .nav-link:hover {
+      color: #7e8c8c;
+      background: #e5f8dd;
+      font-weight: 600;
+    }
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-right: 18px;
+      color: #323232;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 500;
+      background: #caffad;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.18s;
+      border: 1px solid #b6ff5c;
+      user-select: none;
+    }
+    .lang-switch:hover {
+      background: #b6ff5c;
+      color: #1e261e;
+    }
+    .source-btn {
+      background: #222;
+      color: #fff;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-left: 20px;
+      box-shadow: 0 2px 14px #b6ff5c33;
+      border: 2px solid #a6e993;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .source-btn:hover {
+      background: #4c4c4c;
+      color: #d9ffb3;
+    }
+    /* Hamburger and Mobile Nav */
+    .hamburger {
+      display: none;
+      background: #191919;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      margin-left: 10px;
+      z-index: 20;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px #0002, 0 0 0 2px #b6ff5c66;
+      transition: background 0.19s, box-shadow 0.19s;
+      outline: 2.5px solid #b6ff5c;
+      outline-offset: 2px;
+    }
+    .hamburger:hover, .hamburger:focus {
+      background: #242424;
+      box-shadow: 0 0 0 3px #b6ff5c99;
+    }
+    .hamburger .lucide {
+      width: 2em;
+      height: 2em;
+      color: #f5f5f5;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 82vw;
+      max-width: 350px;
+      height: 100vh;
+      box-shadow: -6px 0 36px #b7ebad66;
+      z-index: 999;
+      padding: 35px 30px 25px 32px;
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+      transform: translateX(100%);
+      transition: transform 0.27s cubic-bezier(.43,.13,.46,1.15);
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+      display: flex;
+    }
+    .mobile-nav .nav-link,
+    .mobile-nav .source-btn,
+    .mobile-nav .lang-switch {
+      margin: 10px 0;
+      font-size: 1.18em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .mobile-nav .source-btn {
+      font-size: 1.14em;
+      width: 100%;
+      justify-content: center;
+    }
+    .mobile-nav .lang-switch {
+      margin-bottom: 18px;
+      justify-content: flex-start;
+    }
+    .mobile-nav .close-mobile {
+      background: none;
+      border: none;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 16px;
+      margin-top: -14px;
+      margin-right: -8px;
+    }
+    .mobile-nav .close-mobile .lucide {
+      width: 2.2em;
+      height: 2.2em;
+      color: #1c4027;
+    }
+    .mobile-nav-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0005;
+      z-index: 998;
+      animation: fadeInBackdrop 0.18s;
+    }
+    .mobile-nav-backdrop.show {
+      display: block;
+    }
+    @keyframes fadeInBackdrop {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      header {
+        padding: 0 10px 0 10px;
+        height: 64px;
+      }
+      .logo-img {
+        width: 28px;
+        height: 38px;
+        margin-right: 8px;
+      }
+      .logo-text {
+        font-size: 1.15em;
+      }
+      .mobile-nav {
+        padding: 17px 7vw 15px 7vw;
+        max-width: 98vw;
+        border-radius: 0;
+      }
+    }
+    /* Team Section */
+    .team-title {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 2.7em;
+      font-family: 'Josefin Sans', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #1c4027;
+      text-shadow: 0 2px 12px #caffad44;
+      margin-bottom: 30px;
+    }
+    .team-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 38px;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 1500px;
+      margin: 0 auto;
+      margin-bottom: 80px;
+    }
+    .team-card {
+      background: var(--light-gray);
+      border-radius: var(--team-card-radius);
+      box-shadow: 0 4px 22px #0002, 0 6px 36px #b7ebad33;
+      min-width: 270px;
+      max-width: 270px;
+      width: 270px;
+      padding: 38px 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.18s, transform 0.18s;
+      margin-bottom: 16px;
+      margin-top: 16px;
+      position: relative;
+      border: 1.5px solid #b6ff5c99;
+      /* Ensure all cards are exactly the same size */
+      height: 410px;
+      box-sizing: border-box;
+    }
+    .team-card:hover {
+      box-shadow: 0 8px 38px #b6ff5c55, 0 1.5px 4px #a6e993;
+      transform: translateY(-7px) scale(1.045);
+    }
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 18px;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px #b7ebad77;
+      background: #fff;
+    }
+    .team-name {
+      font-family: 'Josefin Sans', Arial, sans-serif;
+      font-size: 2em;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+      text-align: center;
+      font-weight: 400;
+      color: #232a2c;
+      text-transform: uppercase;
+      margin-top: 0;
+    }
+    .team-role {
+      font-size: 1.13em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1c4027;
+      letter-spacing: 1px;
+      text-align: center;
+      font-family: 'Montserrat', Arial, sans-serif;
+      text-transform: none;
+    }
+    .team-quote {
+      font-size: 1.02em;
+      color: #232a2c;
+      font-style: italic;
+      margin-bottom: 14px;
+      text-align: center;
+      min-height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Josefin Sans', Arial, sans-serif;
+    }
+    .team-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: auto;
+    }
+    .team-links-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+    .team-link {
+      color: #191919;
+      text-decoration: none;
+      font-size: 1.9em;
+      transition: color 0.13s, transform 0.13s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      padding: 4px;
+    }
+    .team-link:hover {
+      color: #a6e993;
+      background: #232a2c0d;
+      transform: scale(1.12);
+    }
+    @media (max-width: 1200px) {
+      .team-container {
+        gap: 20px;
+      }
+      .team-card {
+        min-width: 210px;
+        max-width: 99vw;
+        width: 99vw;
+        padding: 32px 14px 30px 14px;
+        height: 410px;
+      }
+    }
+    @media (max-width: 800px) {
+      .team-container {
+        flex-wrap: wrap;
+        gap: 10vw;
+      }
+      .team-card {
+        height: 410px;
+      }
+    }
+    @media (max-width: 650px) {
+      .team-title { font-size: 1.35em; margin-top: 18px; margin-bottom: 10px;}
+      .team-container { gap: 10px; }
+      .team-card { min-width: 90vw; max-width: 99vw; width: 99vw; padding: 28px 8vw 18px 8vw; height: 350px; }
+      .team-avatar { width: 60px; height: 60px; }
+      .team-name { font-size: 1.13em; }
+      .team-role { font-size: 1em; }
+      .team-quote { font-size: .97em; min-height: 30px; }
+      .team-links { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo-flex" id="home-link">
+      <img src="../web/assets/front.png" alt="FUJIMO Logo" class="logo-img" id="logo-img">
+      <span class="logo-text" id="logo-text">FUJIMO</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <i class="lucide lucide-menu"></i>
+    </button>
+    <nav>
+      <span class="lang-switch" id="lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </nav>
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+    <div class="mobile-nav" id="mobile-nav">
+      <button class="close-mobile" id="close-mobile" aria-label="Close menu">
+        <i class="lucide lucide-x"></i>
+      </button>
+      <span class="lang-switch" id="mobile-lang-switch">
+        <i class="lucide lucide-globe"></i>
+        <span id="mobile-lang-label">EN</span>
+      </span>
+      <a class="nav-link" href="#" id="mobile-our-team-link" data-i18n="our_team">Our Team</a>
+      <a class="nav-link" href="#" id="mobile-about-link" data-i18n="about">About</a>
+      <a class="nav-link" href="#" id="mobile-created-link" data-i18n="created_with">Created With</a>
+      <a class="nav-link" href="/LICENSE" target="_blank" data-i18n="license">LICENSE</a>
+      <button class="source-btn" onclick="window.open('https://github.com/TheusHen/fujimo', '_blank')" data-i18n="source_code">
+        <i class="lucide lucide-github"></i>
+        <span data-i18n="source_code">Source Code</span>
+      </button>
+    </div>
+  </header>
+  <!-- Team Section -->
+  <div class="team-title" data-i18n="our_team">Our Team</div>
+  <div class="team-container">
+    <!-- TheusHen -->
+    <div class="team-card">
+      <img src="../web/assets/team/theushen.png" alt="TheusHen" class="team-avatar" />
+      <div class="team-name">THEUSHEN</div>
+      <div class="team-role" data-i18n="role_developer">Developer</div>
+      <div class="team-quote" data-i18n="quote_theushen">"One of my best projects"</div>
+      <div class="team-links">
+        <div class="team-links-row">
+          <a class="team-link" href="https://github.com/TheusHen" target="_blank" title="GitHub"><i class="lucide lucide-github"></i></a>
+          <a class="team-link" href="https://theushen.com" target="_blank" title="Website"><i class="lucide lucide-globe"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- ChicoLiro -->
+    <div class="team-card">
+      <img src="../web/assets/team/chico.png" alt="ChicoLiro" class="team-avatar" />
+      <div class="team-name">CHICOLIRO</div>
+      <div class="team-role" data-i18n="role_designer">Designer</div>
+      <div class="team-quote" data-i18n="quote_chicoliro">“Falling in love about Fumijo Desing”</div>
+      <div class="team-links">
+        <div class="team-links-row">
+          <a class="team-link" href="https://instagram.com/chicoliro" target="_blank" title="Instagram"><i class="lucide lucide-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- Luan Figueiredo -->
+    <div class="team-card">
+      <img src="../web/assets/team/luan.jpg" alt="Luan Figueiredo" class="team-avatar" />
+      <div class="team-name">LUAN FIGUEIREDO</div>
+      <div class="team-role" data-i18n="role_design_supervisor">Design Supervisor</div>
+      <div class="team-quote" data-i18n="quote_luan">“An great project”</div>
+      <div class="team-links">
+        <div class="team-links-row">
+          <a class="team-link" href="https://instagram.com/luanfigueiredo" target="_blank" title="Instagram"><i class="lucide lucide-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- Andre Schimit -->
+    <div class="team-card">
+      <img src="../web/assets/team/andre.png" alt="Andre Schimit" class="team-avatar" />
+      <div class="team-name">ANDRE SCHIMIT</div>
+      <div class="team-role" data-i18n="role_audio_supervisor">Audio Supervisor</div>
+      <div class="team-quote" data-i18n="quote_andre">“Nice soundtrack”</div>
+      <div class="team-links">
+        <div class="team-links-row">
+          <a class="team-link" href="https://instagram.com/andreschimit" target="_blank" title="Instagram"><i class="lucide lucide-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Lucide icons
+    if (window.lucide && lucide.createIcons) lucide.createIcons();
+
+    // Hamburger mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+    const closeMobile = document.getElementById('close-mobile');
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileNavBackdrop.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileNavBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMobileNav);
+    closeMobile.addEventListener('click', closeMobileNav);
+    mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+    // Add navigation for mobile nav links
+    document.getElementById('mobile-created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/created';
+    });
+    document.getElementById('home-link').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-img').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    document.getElementById('logo-text').addEventListener('click', function() {
+      window.location.href = '/';
+    });
+
+    // Desktop nav link redirects
+    document.getElementById('created-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/created';
+    });
+    document.getElementById('our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/team';
+    });
+    document.getElementById('about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/about';
+    });
+    document.getElementById('mobile-our-team-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/team';
+    });
+    document.getElementById('mobile-about-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMobileNav();
+      window.location.href = '/about';
+    });
+
+    // i18n dictionaries (EN/PT-BR)
+    const translations = {
+      pt: {
+        'EN': 'PT-BR',
+        'our_team': 'Nosso Time',
+        'about': 'Sobre',
+        'created_with': 'Criado Com',
+        'license': 'LICENÇA',
+        'source_code': 'Código Fonte',
+        // cargos
+        'role_developer': 'Desenvolvedor',
+        'role_designer': 'Designer',
+        'role_design_supervisor': 'Supervisor de Design',
+        'role_audio_supervisor': 'Supervisor de Áudio',
+        // quotes
+        'quote_theushen': '“Um dos meus melhores projetos”',
+        'quote_chicoliro': '“Apaixonado pelo Design do Fumijo”',
+        'quote_luan': '“Um ótimo projeto”',
+        'quote_andre': '“Trilha sonora incrível”'
+      },
+      en: {
+        'EN': 'EN',
+        'our_team': 'Our Team',
+        'about': 'About',
+        'created_with': 'Created With',
+        'license': 'LICENSE',
+        'source_code': 'Source Code',
+        // roles
+        'role_developer': 'Developer',
+        'role_designer': 'Designer',
+        'role_design_supervisor': 'Design Supervisor',
+        'role_audio_supervisor': 'Audio Supervisor',
+        // quotes
+        'quote_theushen': '"One of my best projects"',
+        'quote_chicoliro': '“Falling in love about Fumijo Desing”',
+        'quote_luan': '“An great project”',
+        'quote_andre': '“Nice soundtrack”'
+      }
+    };
+    var currentLang = 'en';
+
+    function translatePage(lang) {
+      // Desktop and Team Section
+      document.querySelectorAll('[data-i18n]:not(.mobile-nav [data-i18n])').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('lang-label').innerText = translations[lang]['EN'];
+      // Mobile
+      document.querySelectorAll('.mobile-nav [data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      document.getElementById('mobile-lang-label').innerText = translations[lang]['EN'];
+    }
+
+    document.getElementById('lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+    document.getElementById('mobile-lang-switch').onclick = function() {
+      currentLang = currentLang === 'en' ? 'pt' : 'en';
+      translatePage(currentLang);
+    };
+
+    // Inicialização
+    translatePage(currentLang);
+
+    if (window.framerMotion && window.framerMotion.animate) {
+      document.querySelectorAll('.team-card').forEach((el, idx) => {
+        el.style.opacity = 0;
+        setTimeout(() => {
+          if (window.framerMotion) {
+            framerMotion.animate(el, { opacity: [0, 1], y: [40, 0] }, { duration: 0.8, delay: 0.15 + idx * 0.07, ease: "easeOut" });
+          } else {
+            el.style.opacity = 1;
+          }
+        }, 180 + idx * 70);
+      });
+    }
+  </script>
+</body>
+</html>

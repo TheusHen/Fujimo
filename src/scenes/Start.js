@@ -5,52 +5,61 @@ export class Start extends Phaser.Scene {
 
     preload() {
         // Carregar o "floor" como novo background
-        this.load.image('background', 'assets/floor.png');
+        this.load.image('background', '/src/scenes/assets/floor.png');
         // Floor agora é só o chão base, por baixo de tudo
-        this.load.image('floor', 'assets/floor.png');
+        this.load.image('floor', '/src/scenes/assets/floor.png');
 
         // Móveis para ficarem acima do novo fundo (floor.png)
-        this.load.image('pc', 'assets/Moveis/pc.png');
-        this.load.image('esc_cadeira', 'assets/Moveis/esc_cadeira.png');
-        this.load.image('armario', 'assets/Moveis/armario.png');
-        this.load.image('fogao', 'assets/Moveis/fogao.png');
-        this.load.image('mesa', 'assets/Moveis/mesa.png');
-        this.load.image('pia', 'assets/Moveis/pia.png');
-        this.load.image('cadeira', 'assets/Moveis/cadeira.png');
-        this.load.image('geladeira', 'assets/Moveis/geladeira.png');
-        this.load.image('estante', 'assets/Moveis/estante.png');
-        this.load.image('lixeira', 'assets/Moveis/lixeira.png');
-        this.load.image('futon', 'assets/Moveis/futon.png');
+        this.load.image('pc', '/src/scenes/assets/Moveis/pc.png');
+        this.load.image('esc_cadeira', '/src/scenes/assets/Moveis/esc_cadeira.png');
+        this.load.image('armario', '/src/scenes/assets/Moveis/armario.png');
+        this.load.image('fogao', '/src/scenes/assets/Moveis/fogao.png');
+        this.load.image('mesa', '/src/scenes/assets/Moveis/mesa.png');
+        this.load.image('pia', '/src/scenes/assets/Moveis/pia.png');
+        this.load.image('cadeira', '/src/scenes/assets/Moveis/cadeira.png');
+        this.load.image('geladeira', '/src/scenes/assets/Moveis/geladeira.png');
+        this.load.image('estante', '/src/scenes/assets/Moveis/estante.png');
+        this.load.image('lixeira', '/src/scenes/assets/Moveis/lixeira.png');
+        this.load.image('futon', '/src/scenes/assets/Moveis/futon.png');
 
         // Parada (idle)
-        this.load.image('fujimo_parada_1', 'assets/parada/frame_1_delay-0.1s.png');
-        this.load.image('fujimo_parada_2', 'assets/parada/frame_2_delay-0.1s.png');
-        this.load.image('fujimo_parada_3', 'assets/parada/frame_3_delay-0.1s.png');
-        this.load.image('fujimo_parada_4', 'assets/parada/frame_4_delay-0.1s.png');
-        this.load.image('fujimo_parada_5', 'assets/parada/frame_5_delay-0.1s.png');
-        this.load.image('fujimo_parada_6', 'assets/parada/frame_6_delay-0.1s.png');
-        this.load.image('fujimo_parada_7', 'assets/parada/frame_7_delay-0.1s.png');
-        this.load.image('fujimo_parada_0', 'assets/parada/frame_0_delay-0.1s.png');
+        this.load.image('fujimo_parada_1', '/src/scenes/assets/parada/frame_1_delay-0.1s.png');
+        this.load.image('fujimo_parada_2', '/src/scenes/assets/parada/frame_2_delay-0.1s.png');
+        this.load.image('fujimo_parada_3', '/src/scenes/assets/parada/frame_3_delay-0.1s.png');
+        this.load.image('fujimo_parada_4', '/src/scenes/assets/parada/frame_4_delay-0.1s.png');
+        this.load.image('fujimo_parada_5', '/src/scenes/assets/parada/frame_5_delay-0.1s.png');
+        this.load.image('fujimo_parada_6', '/src/scenes/assets/parada/frame_6_delay-0.1s.png');
+        this.load.image('fujimo_parada_7', '/src/scenes/assets/parada/frame_7_delay-0.1s.png');
+        this.load.image('fujimo_parada_0', '/src/scenes/assets/parada/frame_0_delay-0.1s.png');
 
         // Andando (walking)
-        this.load.image('fujimo_andando_1', 'assets/andando/fujimo_andando_1.png');
-        this.load.image('fujimo_andando_2', 'assets/andando/fujimo_andando_2.png');
-        this.load.image('fujimo_andando_3', 'assets/andando/fujimo_andando_3.png');
-        this.load.image('fujimo_andando_4', 'assets/andando/fujimo_andando_4.png');
-        this.load.image('fujimo_andando_5', 'assets/andando/fujimo_andando_5.png');
-        this.load.image('fujimo_andando_6', 'assets/andando/fujimo_andando_6.png');
-        this.load.image('fujimo_andando_7', 'assets/andando/fujimo_andando_7.png');
-        this.load.image('fujimo_andando_8', 'assets/andando/fujimo_andando_8.png');
+        this.load.image('fujimo_andando_1', '/src/scenes/assets/andando/fujimo_andando_1.png');
+        this.load.image('fujimo_andando_2', '/src/scenes/assets/andando/fujimo_andando_2.png');
+        this.load.image('fujimo_andando_3', '/src/scenes/assets/andando/fujimo_andando_3.png');
+        this.load.image('fujimo_andando_4', '/src/scenes/assets/andando/fujimo_andando_4.png');
+        this.load.image('fujimo_andando_5', '/src/scenes/assets/andando/fujimo_andando_5.png');
+        this.load.image('fujimo_andando_6', '/src/scenes/assets/andando/fujimo_andando_6.png');
+        this.load.image('fujimo_andando_7', '/src/scenes/assets/andando/fujimo_andando_7.png');
+        this.load.image('fujimo_andando_8', '/src/scenes/assets/andando/fujimo_andando_8.png');
 
         // Animação especial para S (baixo)
-        this.load.image('fujimo_parada_baixo_3', 'assets/andando/horizontal/fujimo_parada_baixo3.png');
-        this.load.image('fujimo_parada_baixo_4', 'assets/andando/horizontal/fujimo_parada_baixo4.png');
-        this.load.image('fujimo_parada_baixo_5', 'assets/andando/horizontal/fujimo_parada_baixo5.png');
-        this.load.image('fujimo_parada_baixo_6', 'assets/andando/horizontal/fujimo_parada_baixo6.png');
-        this.load.image('fujimo_parada_baixo_7', 'assets/andando/horizontal/fujimo_parada_baixo7.png');
-        this.load.image('fujimo_parada_baixo_8', 'assets/andando/horizontal/fujimo_parada_baixo8.png');
-        this.load.image('fujimo_parada_baixo_1', 'assets/andando/horizontal/fujimo_parada_baixo1.png');
-        this.load.image('fujimo_parada_baixo_2', 'assets/andando/horizontal/fujimo_parada_baixo2.png');
+        this.load.image('fujimo_parada_baixo_3', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo3.png');
+        this.load.image('fujimo_parada_baixo_4', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo4.png');
+        this.load.image('fujimo_parada_baixo_5', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo5.png');
+        this.load.image('fujimo_parada_baixo_6', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo6.png');
+        this.load.image('fujimo_parada_baixo_7', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo7.png');
+        this.load.image('fujimo_parada_baixo_8', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo8.png');
+        this.load.image('fujimo_parada_baixo_1', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo1.png');
+        this.load.image('fujimo_parada_baixo_2', '/src/scenes/assets/andando/horizontal/fujimo_parada_baixo2.png');
+
+        // Andando/parada para cima (idle e walk up)
+        this.load.image('fujimo_parada_cima_1', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima1.png');
+        this.load.image('fujimo_parada_cima_2', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima2.png');
+        this.load.image('fujimo_parada_cima_3', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima3.png');
+        this.load.image('fujimo_parada_cima_4', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima4.png');
+        this.load.image('fujimo_parada_cima_5', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima5.png');
+        this.load.image('fujimo_parada_cima_6', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima6.png');
+        this.load.image('fujimo_parada_cima_7', '/src/scenes/assets/andando/horizontal/cima/fujimo_parada_cima7.png');
     }
 
     create() {
@@ -133,6 +142,22 @@ export class Start extends Phaser.Scene {
             repeat: -1
         });
 
+        // Animação parada (idle) - CIMA
+        this.anims.create({
+            key: 'idle_up',
+            frames: [
+                { key: 'fujimo_parada_cima_1' },
+                { key: 'fujimo_parada_cima_2' },
+                { key: 'fujimo_parada_cima_3' },
+                { key: 'fujimo_parada_cima_4' },
+                { key: 'fujimo_parada_cima_5' },
+                { key: 'fujimo_parada_cima_6' },
+                { key: 'fujimo_parada_cima_7' }
+            ],
+            frameRate: 10,
+            repeat: -1
+        });
+
         // Animação andando (walking) - LADO
         this.anims.create({
             key: 'walk_side',
@@ -167,18 +192,17 @@ export class Start extends Phaser.Scene {
             repeat: -1
         });
 
-        // Animação andando (walking) - CIMA (reverse do baixo)
+        // Animação andando (walking) - CIMA
         this.anims.create({
             key: 'walk_up',
             frames: [
-                { key: 'fujimo_parada_baixo_2' },
-                { key: 'fujimo_parada_baixo_1' },
-                { key: 'fujimo_parada_baixo_8' },
-                { key: 'fujimo_parada_baixo_7' },
-                { key: 'fujimo_parada_baixo_6' },
-                { key: 'fujimo_parada_baixo_5' },
-                { key: 'fujimo_parada_baixo_4' },
-                { key: 'fujimo_parada_baixo_3' }
+                { key: 'fujimo_parada_cima_1' },
+                { key: 'fujimo_parada_cima_2' },
+                { key: 'fujimo_parada_cima_3' },
+                { key: 'fujimo_parada_cima_4' },
+                { key: 'fujimo_parada_cima_5' },
+                { key: 'fujimo_parada_cima_6' },
+                { key: 'fujimo_parada_cima_7' }
             ],
             frameRate: 10,
             repeat: -1
@@ -201,6 +225,69 @@ export class Start extends Phaser.Scene {
         // Estado de movimento
         this.isMoving = false;
         this.lastDirection = 'down'; // Começa olhando pra baixo
+
+        // JOYSTICK MOBILE
+        this.initMobileJoystick();
+    }
+
+    // Função para detectar mobile (simples)
+    isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    initMobileJoystick() {
+        this.joystick = {
+            up: false,
+            down: false,
+            left: false,
+            right: false
+        };
+        if (!this.isMobile()) {
+            this.joystickContainer && this.joystickContainer.setVisible(false);
+            return;
+        }
+        // Cria um container para o joystick
+        this.joystickContainer = this.add.container();
+        const Y = this.scale.height - 80;
+        const X = 80;
+        const size = 44;
+        const alpha = 0.8;
+
+        // Círculos de direção
+        const btnLeft = this.add.circle(X - size, Y, size, 0xaaaaaa, alpha)
+            .setInteractive()
+            .on('pointerdown', () => this.joystick.left = true)
+            .on('pointerup', () => this.joystick.left = false)
+            .on('pointerout', () => this.joystick.left = false);
+        const btnRight = this.add.circle(X + size, Y, size, 0xaaaaaa, alpha)
+            .setInteractive()
+            .on('pointerdown', () => this.joystick.right = true)
+            .on('pointerup', () => this.joystick.right = false)
+            .on('pointerout', () => this.joystick.right = false);
+        const btnUp = this.add.circle(X, Y - size, size, 0xaaaaaa, alpha)
+            .setInteractive()
+            .on('pointerdown', () => this.joystick.up = true)
+            .on('pointerup', () => this.joystick.up = false)
+            .on('pointerout', () => this.joystick.up = false);
+        const btnDown = this.add.circle(X, Y + size, size, 0xaaaaaa, alpha)
+            .setInteractive()
+            .on('pointerdown', () => this.joystick.down = true)
+            .on('pointerup', () => this.joystick.down = false)
+            .on('pointerout', () => this.joystick.down = false);
+
+        // Pequenos ícones ou setas opcionais (desenhe usando graphics se quiser)
+
+        this.joystickContainer.add([btnLeft, btnRight, btnUp, btnDown]);
+        this.joystickContainer.setDepth(100);
+
+        // Responsivo
+        this.scale.on('resize', (gameSize) => {
+            const Y = gameSize.height - 80;
+            btnLeft.setPosition(X - size, Y);
+            btnRight.setPosition(X + size, Y);
+            btnUp.setPosition(X, Y - size);
+            btnDown.setPosition(X, Y + size);
+        });
     }
 
     update(time, delta) {
@@ -212,10 +299,10 @@ export class Start extends Phaser.Scene {
         var newY = this.fujimo.y;
 
         // Checa se está andando
-        var isLeft = this.keys.left.isDown;
-        var isRight = this.keys.right.isDown;
-        var isUp = this.keys.up.isDown;
-        var isDown = this.keys.down.isDown;
+        var isLeft = this.keys.left.isDown || (this.joystick && this.joystick.left);
+        var isRight = this.keys.right.isDown || (this.joystick && this.joystick.right);
+        var isUp = this.keys.up.isDown || (this.joystick && this.joystick.up);
+        var isDown = this.keys.down.isDown || (this.joystick && this.joystick.down);
 
         var moving = isLeft || isRight || isUp || isDown;
 
@@ -272,13 +359,11 @@ export class Start extends Phaser.Scene {
             this.isMoving = true;
             this.lastDirection = direction;
         } else {
-            // Parou de andar, mostra idle na última direção
             if (this.isMoving) {
                 if (this.lastDirection === 'down') {
                     this.fujimo.play('idle_down');
                 } else if (this.lastDirection === 'up') {
-                    // Use idle_down de costas se quiser, ou crie idle_up
-                    this.fujimo.play('idle_down');
+                    this.fujimo.play('idle_up');
                 } else if (this.lastDirection === 'left' || this.lastDirection === 'right') {
                     this.fujimo.play('idle_side');
                     this.fujimo.setFlipX(this.lastDirection === 'left');
@@ -324,5 +409,19 @@ export class Start extends Phaser.Scene {
         }
 
         this.fujimo.setPosition(width / 2, height / 2);
+
+        // Redimensiona joystick se existir
+        if (this.joystickContainer && this.isMobile()) {
+            const X = 80;
+            const Y = height - 80;
+            const size = 44;
+            this.joystickContainer.iterate((btn, i) => {
+                // ordem: 0=left, 1=right, 2=up, 3=down
+                if (i === 0) btn.setPosition(X - size, Y);
+                if (i === 1) btn.setPosition(X + size, Y);
+                if (i === 2) btn.setPosition(X, Y - size);
+                if (i === 3) btn.setPosition(X, Y + size);
+            });
+        }
     }
 }
