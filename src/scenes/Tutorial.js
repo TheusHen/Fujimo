@@ -4,8 +4,8 @@ export class Tutorial extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('heart', 'assets/heart.png');
-        this.load.image('object', 'assets/object.png');
+        this.load.image('heart', '/play/assets/heart.png');
+        this.load.image('object', '/play/assets/object.png');
     }
 
     create() {
