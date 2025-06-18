@@ -60,7 +60,7 @@ export class Start extends Phaser.Scene {
         this.background = this.add.image(width / 2, height / 2, 'background');
         this.background.setDisplaySize(width, height).setDepth(1);
 
-        // Móveis: cada item pode ter uma margem personalizada (margin: px)
+        // Móveis
         this.moveis = [
             { key: 'pc',         x: width * 0.06,    y: height * 0.35, margin: 1 },
             { key: 'esc_cadeira',x: width * 0.14,    y: height * 0.2,  margin: 1 },
@@ -82,9 +82,7 @@ export class Start extends Phaser.Scene {
             this.moveisSprites.push(sprite);
         });
 
-        // Geração dinâmica do array 'moveis' (apenas com posição e key, para uso externo)
         this.updateMoveisList = () => {
-            // Apenas retorna um array com {key, x, y, margin}
             return this.moveis.map((item, idx) => ({
                 key: item.key,
                 x: this.moveisSprites[idx]?.x ?? item.x,
@@ -93,7 +91,7 @@ export class Start extends Phaser.Scene {
             }));
         };
 
-        // Fujimo um pouco à esquerda do centro (ex: 30% da largura)
+        // Fujimo um pouco à esquerda do centro
         const fujimoStartX = width * 0.3;
         const fujimoStartY = height / 2;
         this.fujimo = this.add.sprite(fujimoStartX, fujimoStartY, 'fujimo_parada_0').setDepth(3);
@@ -260,46 +258,51 @@ export class Start extends Phaser.Scene {
         this.tweens.add({
             targets: this.natasha,
             x: width / 2,
-            duration: 3500, // Mais lento
+            duration: 3500,
             ease: 'Linear',
-            onUpdate: () => {
-                // Natasha permanece idle
-            },
+            onUpdate: () => {},
             onComplete: () => {
                 this.natashaWalking = false;
-                // Após chegar ao centro, troca ela para animação normal (se quiser)
                 this.natasha.play('natasha_anim');
-                // Após chegar ao centro, mostrar as caixas de diálogo sequenciais
                 this.showNatashaDialogs();
             }
         });
     }
 
     showNatashaDialogs() {
-        // Mensagens sequenciais animadas: "Olá", "Okey", "Começar"
         const width = this.scale.width;
         const height = this.scale.height;
         const dialogs = [
-            { text: 'Olá', key: 'dialog1' },
-            { text: 'Okey', key: 'dialog2' },
-            { text: 'Começar', key: 'dialog3' }
+            { text: 'Olá Fujimo, fiquei sabendo que consegui aquele emprego que queria, certo? De Fashionismo', key: 'dialog1' },
+            { text: 'Acho que deveriamos treinar sua respiração para falar em publíco, não acha?', key: 'dialog2' },
+            { text: 'Vamos treinar!', key: 'dialog3' }
         ];
 
         let dialogIndex = 0;
         const showDialog = () => {
             if (this.currentDialogBox) {
-                this.currentDialogBox.destroy();
+                this.tweens.add({
+                    targets: this.currentDialogBox,
+                    alpha: 0,
+                    duration: 200,
+                    onComplete: () => {
+                        this.currentDialogBox.destroy();
+                        showNext();
+                    }
+                });
+            } else {
+                showNext();
             }
+        };
+
+        const showNext = () => {
             if (dialogIndex >= dialogs.length) {
-                // Depois do último, muda para /tutorial
                 this.time.delayedCall(400, () => {
-                    this.scene.start('tutorial');
+                    this.scene.start('Tutorial');
                 });
                 return;
             }
-            // Cria caixa de diálogo animada com texto digitando
             this.currentDialogBox = this.createAnimatedDialogBox(dialogs[dialogIndex].text, width / 2, height * 0.7, () => {
-                // Só chama o próximo após o texto aparecer completamente!
                 this.time.delayedCall(900, showDialog);
             });
             dialogIndex++;
@@ -309,44 +312,84 @@ export class Start extends Phaser.Scene {
     }
 
     /**
-     * Caixa de diálogo animada com efeito de "texto digitando"
+     * Caixa de diálogo animada responsiva com efeito de "texto digitando" e animações
      * @param {string} text O texto a ser digitado
      * @param {number} x
      * @param {number} y
      * @param {function} onComplete chamado quando o texto terminar de aparecer
      */
     createAnimatedDialogBox(text, x, y, onComplete) {
-        // Caixa arredondada com animação de fade in
-        const boxWidth = 220;
-        const boxHeight = 60;
+        // Caixa adaptável ao tamanho da tela
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        // largura 95%, altura 28% (mín 380x110, máx 900x320)
+        let boxWidth = Math.max(380, Math.min(width * 0.95, 900));
+        let boxHeight = Math.max(110, Math.min(height * 0.28, 320));
+
         const box = this.add.container(x, y);
-        const bg = this.add.rectangle(0, 0, boxWidth, boxHeight, 0xffffff, 0.92)
-            .setStrokeStyle(2, 0x333366, 1)
+        const bg = this.add.rectangle(0, 0, boxWidth, boxHeight, 0xffffff, 0.95)
+            .setStrokeStyle(3, 0x333366, 1)
             .setOrigin(0.5);
         bg.setAlpha(0);
+        // Sombra sutil: retângulo preto atrás, levemente deslocado
+        const shadowOffset = 8;
+        const shadow = this.add.rectangle(shadowOffset, shadowOffset, boxWidth, boxHeight, 0x000000, 0.18)
+            .setOrigin(0.5)
+            .setAlpha(0);
+
+        // DIMINUI FONTE DOS DIÁLOGOS: diminua divisor de 13 → 19, mínimo 14px
+        let fontSize = Math.max(14, Math.min(32, boxWidth / 19));
         const txt = this.add.text(0, 0, '', {
             fontFamily: 'Arial',
-            fontSize: '32px',
+            fontSize: `${fontSize}px`,
             color: '#222',
             align: 'center',
-            wordWrap: { width: boxWidth - 32 }
+            wordWrap: { width: boxWidth - 48 }
         }).setOrigin(0.5);
         txt.setAlpha(0);
 
-        box.add([bg, txt]);
+        box.add([shadow, bg, txt]);
         box.setDepth(10);
+        box.setAlpha(0);
 
-        // Fade in
+        // Animação de escala e fade in
+        box.setScale(0.85);
         this.tweens.add({
-            targets: [bg, txt],
+            targets: box,
             alpha: 1,
-            duration: 300,
-            ease: 'Sine.easeIn',
+            scale: 1,
+            ease: "Back.Out",
+            duration: 220,
             onComplete: () => {
-                // Depois do fade in, começa o efeito de texto digitando
-                this.typewriteText(txt, text, 26, onComplete);
+                this.tweens.add({
+                    targets: [txt, bg, shadow],
+                    alpha: 1,
+                    duration: 100,
+                    onComplete: () => {
+                        this.typewriteText(txt, text, 26, onComplete);
+                    }
+                });
             }
         });
+
+        // Clique/touch na caixa pula texto
+        box.setInteractive(new Phaser.Geom.Rectangle(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight), Phaser.Geom.Rectangle.Contains);
+        box.on('pointerdown', () => {
+            if (!txt.isTypingDone && txt.visible) {
+                txt.setText(text);
+                txt.isTypingDone = true;
+                if (onComplete) onComplete();
+            }
+        });
+
+        // Salva para resize
+        box.bg = bg;
+        box.shadow = shadow;
+        box.txt = txt;
+        box._boxWidth = boxWidth;
+        box._boxHeight = boxHeight;
+        box._fontSize = fontSize;
 
         return box;
     }
@@ -361,13 +404,15 @@ export class Start extends Phaser.Scene {
     typewriteText(textObj, fullText, delayMillis, onComplete) {
         textObj.setText('');
         let i = 0;
+        textObj.isTypingDone = false;
         const write = () => {
             if (i <= fullText.length) {
                 textObj.setText(fullText.slice(0, i));
                 i++;
-                if (i <= fullText.length) {
+                if (i <= fullText.length && !textObj.isTypingDone) {
                     this.time.delayedCall(delayMillis, write, [], this);
-                } else if (onComplete) {
+                } else if (onComplete && !textObj.isTypingDone) {
+                    textObj.isTypingDone = true;
                     onComplete();
                 }
             }
@@ -375,7 +420,6 @@ export class Start extends Phaser.Scene {
         write();
     }
 
-    // Função de colisão Fujimo x Móveis (usando bounding box, com margem customizada para cada móvel)
     checkFurnitureCollision(x, y) {
         const fujimoHalfW = this.fujimo.displayWidth / 2;
         const fujimoHalfH = this.fujimo.displayHeight / 2;
@@ -399,7 +443,6 @@ export class Start extends Phaser.Scene {
                 bottom: sprite.y + halfH + margin
             };
 
-            // Checagem simples de AABB
             if (
                 fujimoRect.right > objRect.left &&
                 fujimoRect.left < objRect.right &&
@@ -462,10 +505,7 @@ export class Start extends Phaser.Scene {
     }
 
     update(time, delta) {
-        // Se Natasha está andando ou falando, Fujimo não pode andar
-        if (this.fujimoLocked) {
-            return;
-        }
+        if (this.fujimoLocked) return;
 
         var moveAmount = (this.speed * delta) / 1000;
         var width = this.scale.width;
@@ -565,9 +605,7 @@ export class Start extends Phaser.Scene {
         this.floor.setDisplaySize(width + 15, height + 15).setPosition(width / 2, height / 2);
         this.background.setDisplaySize(width, height).setPosition(width / 2, height / 2);
 
-        // Redimensiona móveis SEM margem, mas respeitando índices e margin do this.moveis
         if (this.moveisSprites) {
-            // Atualiza as posições de this.moveis também para manter consistência
             const moveisPos = [
                 { x: width * 0.06,    y: height * 0.35 },
                 { x: width * 0.14,    y: height * 0.2 },
@@ -591,7 +629,6 @@ export class Start extends Phaser.Scene {
             });
         }
 
-        // Fujimo sempre um pouco à esquerda do centro ao redimensionar
         const fujimoStartX = width * 0.3;
         const fujimoStartY = height / 2;
         this.fujimo.setPosition(fujimoStartX, fujimoStartY);
@@ -608,12 +645,30 @@ export class Start extends Phaser.Scene {
             });
         }
 
-        // Natasha também deve ser centralizada se já estiver na tela
         if (this.natasha) {
             this.natasha.setY(height / 2);
         }
         if (this.currentDialogBox) {
+            // largura 95%, altura 28% (mín 380x110, máx 900x320)
+            let boxWidth = Math.max(380, Math.min(width * 0.95, 900));
+            let boxHeight = Math.max(110, Math.min(height * 0.28, 320));
+            // FONTE PEQUENA: divisor 19, mínimo 14px, máximo 32px
+            let fontSize = Math.max(14, Math.min(32, boxWidth / 19));
             this.currentDialogBox.setPosition(width / 2, height * 0.7);
+            if (this.currentDialogBox.bg) {
+                this.currentDialogBox.bg.width = boxWidth;
+                this.currentDialogBox.bg.height = boxHeight;
+            }
+            if (this.currentDialogBox.shadow) {
+                this.currentDialogBox.shadow.width = boxWidth;
+                this.currentDialogBox.shadow.height = boxHeight;
+            }
+            if (this.currentDialogBox.txt) {
+                this.currentDialogBox.txt.setStyle({
+                    fontSize: `${fontSize}px`,
+                    wordWrap: { width: boxWidth - 48 }
+                });
+            }
         }
     }
 }

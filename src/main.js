@@ -1,4 +1,5 @@
 import { Start } from './scenes/Start.js';
+import { Tutorial } from './scenes/Tutorial.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -9,8 +10,14 @@ const config = {
     height: 380,
     backgroundColor: '#000000',
     pixelArt: false,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
+    },
     scene: [
-        Start
+        Start, Tutorial
     ],
     scale: {
         mode: Phaser.Scale.FIT,
@@ -19,4 +26,3 @@ const config = {
 }
 
 new Phaser.Game(config);
-            

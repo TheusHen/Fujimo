@@ -23,7 +23,7 @@
         body {
             line-height: 1;
             font-family: Arial, sans-serif;
-            background-color: #040218;
+            background-color: #000000;
         }
 
         ol, ul {
@@ -57,9 +57,40 @@
             width: 80vw;
             max-width: 480px;
         }
+
+        /* Lucide back arrow styling */
+        .back-arrow-btn {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            z-index: 10000;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .back-arrow-btn svg {
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            stroke-width: 2.5;
+        }
+        .back-arrow-btn:active svg,
+        .back-arrow-btn:focus svg {
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
+    <!-- Back arrow from Lucide (https://lucide.dev/icons/arrow-left) -->
+    <button class="back-arrow-btn" id="back-arrow" aria-label="Voltar para Home" title="Voltar para Home">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M19 12H5"/>
+            <path d="M12 19l-7-7 7-7"/>
+        </svg>
+    </button>
     <div id="game-container"></div>
     <div id="rotate-overlay">
         <video id="rotate-video" src="../web/assets/rotate.mp4" autoplay loop muted playsinline></video>
@@ -67,6 +98,11 @@
     <script src="../phaser.js"></script>
     <script type="module" src="../src/main.js"></script>
     <script>
+        // Handle back arrow click
+        document.getElementById('back-arrow').addEventListener('click', function() {
+            window.location.href = "/";
+        });
+
         // Utility to detect if the user is on mobile
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
