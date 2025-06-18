@@ -6,7 +6,7 @@
     <title>Fujimo</title>
     <link rel="icon" type="image/png" href="../web/assets/front.png" />
     <style>
-        /* Reset CSS: Please avoid making changes here unless you know what you're doing :) */
+        /* Reset CSS */
         *,
         *::before,
         *::after {
@@ -53,12 +53,13 @@
             align-items: center;
             justify-content: center;
         }
+
         #rotate-overlay video {
             width: 80vw;
             max-width: 480px;
         }
 
-        /* Lucide back arrow styling */
+        /* Back arrow styling */
         .back-arrow-btn {
             position: fixed;
             top: 18px;
@@ -71,80 +72,99 @@
             display: flex;
             align-items: center;
         }
+
         .back-arrow-btn svg {
             width: 32px;
             height: 32px;
             color: #fff;
             stroke-width: 2.5;
         }
+
         .back-arrow-btn:active svg,
         .back-arrow-btn:focus svg {
             color: #aaa;
         }
+
+        /* Block interactions and optionally blur background when overlay is active */
+        body.blocked {
+            pointer-events: none;
+            user-select: none;
+            filter: blur(5px);
+        }
+
+        /* Make overlay exempt from being blocked */
+        #rotate-overlay {
+            pointer-events: auto;
+            filter: none;
+        }
     </style>
 </head>
 <body>
-    <!-- Back arrow from Lucide (https://lucide.dev/icons/arrow-left) -->
+    <!-- Back arrow -->
     <button class="back-arrow-btn" id="back-arrow" aria-label="Voltar para Home" title="Voltar para Home">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
             <path d="M19 12H5"/>
             <path d="M12 19l-7-7 7-7"/>
         </svg>
     </button>
+
+    <!-- Game container -->
     <div id="game-container"></div>
+
+    <!-- Rotate overlay with video -->
     <div id="rotate-overlay">
         <video id="rotate-video" src="../web/assets/rotate.mp4" autoplay loop muted playsinline></video>
     </div>
+
+    <!-- Scripts -->
     <script src="../phaser.js"></script>
     <script type="module" src="../src/main.js"></script>
     <script>
-        // Handle back arrow click
-        document.getElementById('back-arrow').addEventListener('click', function() {
+        // Back button action
+        document.getElementById('back-arrow').addEventListener('click', function () {
             window.location.href = "/";
         });
 
-        // Utility to detect if the user is on mobile
+        // Mobile detection
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        // Utility to check if the device is in portrait mode
+        // Portrait orientation detection
         function isPortrait() {
             return window.innerHeight > window.innerWidth;
         }
 
-        // Handle showing/hiding the overlay
+        // Handle showing/hiding the rotate overlay
         function handleOrientationLock() {
             const overlay = document.getElementById('rotate-overlay');
             if (isMobile()) {
                 if (isPortrait()) {
                     overlay.style.display = 'flex';
-                    // Optionally, you could also disable input to the game-container here
+                    document.body.classList.add('blocked');
                     document.body.style.overflow = 'hidden';
                 } else {
                     overlay.style.display = 'none';
+                    document.body.classList.remove('blocked');
                     document.body.style.overflow = '';
                 }
             } else {
                 overlay.style.display = 'none';
+                document.body.classList.remove('blocked');
                 document.body.style.overflow = '';
             }
         }
 
+        // Event listeners
         window.addEventListener('DOMContentLoaded', handleOrientationLock);
         window.addEventListener('resize', handleOrientationLock);
         window.addEventListener('orientationchange', handleOrientationLock);
 
-        // Prevent interaction with the page while overlay is shown
-        document.getElementById('rotate-overlay').addEventListener('touchmove', e => {
-            e.preventDefault();
-        }, { passive: false });
-        document.getElementById('rotate-overlay').addEventListener('touchstart', e => {
-            e.preventDefault();
-        }, { passive: false });
-        document.getElementById('rotate-overlay').addEventListener('click', e => {
-            e.preventDefault();
-        }, { passive: false });
+        // Prevent interaction while overlay is visible
+        const overlay = document.getElementById('rotate-overlay');
+        ['touchmove', 'touchstart', 'click'].forEach(event => {
+            overlay.addEventListener(event, e => e.preventDefault(), { passive: false });
+        });
     </script>
 </body>
 </html>
