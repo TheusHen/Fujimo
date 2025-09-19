@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvn8r7y2xpq1m"]
+
+[ext_resource type="Script" path="res://scripts/TutorialScene.gd" id="1_5x2m8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/objects/heart.png" id="2_3k9l4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/objects/object.png" id="3_7h5n2"]
+
+[node name="TutorialScene" type="Node2D"]
+script = ExtResource("1_5x2m8")
+
+[node name="Heart" type="Sprite2D" parent="."]
+position = Vector2(512, 190)
+texture = ExtResource("2_3k9l4")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BPMLabel" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 40.0
+text = "BPM: 60"
+label_settings = SubResource("LabelSettings_1a2b3")
+
+[node name="TutorialLabel" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 50.0
+offset_right = 800.0
+offset_bottom = 150.0
+text = "Welcome to the tutorial! Click to continue."
+autowrap_mode = 2
+label_settings = SubResource("LabelSettings_4c5d6")
+
+[sub_resource type="LabelSettings" id="LabelSettings_1a2b3"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_4c5d6"]
+font_size = 18

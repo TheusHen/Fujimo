@@ -1,0 +1,45 @@
+name: Godot Tests
+on:
+  push:
+    branches: [main, godot-conversion]
+  pull_request:
+    branches: [main, godot-conversion]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.2.0
+          use-dotnet: false
+          
+      - name: Verify project structure
+        run: |
+          ls -la
+          test -f project.godot
+          test -d scenes
+          test -d scripts
+          test -d assets
+          
+      - name: Import assets
+        run: godot --headless --import
+        
+      - name: Run Godot tests (if GUT is available)
+        run: |
+          # Check if we have GUT testing framework
+          if [ -d "addons/gut" ]; then
+            godot --headless -s addons/gut/gut_cmdln.gd
+          else
+            echo "GUT testing framework not installed - skipping tests"
+            echo "Project structure verification passed"
+          fi
+          
+      - name: Check scene validity
+        run: |
+          godot --headless --check-only scenes/StartScene.tscn
+          godot --headless --check-only scenes/TutorialScene.tscn
