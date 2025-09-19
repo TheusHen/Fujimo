@@ -1,5 +1,5 @@
-import { Start } from './scenes/Start.js';
-import { Tutorial } from './scenes/Tutorial.js';
+import { Start } from './game/scenes/Start.js';
+import { Tutorial } from './game/scenes/Tutorial.js';
 
 const config = {
     type: Phaser.AUTO,
